@@ -8,7 +8,7 @@ const { exec } = require("child_process");
 // Configuration 
 //====================================
 const config = {
-	localDir: "./handshakes/pcap/"
+	localDir: "./handshakes/pcap"
 };
 
 let successfulPMKIDs = 0;
@@ -34,20 +34,6 @@ function logo() {
 			`);
 }
 
-async function readBSSIDsFile() {
-	return new Promise((resolve, reject) => {
-		fs.readFile(path.join(__dirname, "bssids.json"), function (err, data) {
-			if (err) {
-				reject(`Unable to read bssids.json file: ${err}`);
-				return;
-			};
-
-			let json = JSON.parse(data);
-			resolve(json);
-		});
-	})
-}
-
 //=================================
 // Get all pcap files in the directory
 //=================================
@@ -62,35 +48,6 @@ async function readDir() {
 	})
 }
 
-//===============================================================
-// Extract BSSID from PCAP file - Terrible way using Aircrack-ng
-//===============================================================
-async function grabBSSID(file) {
-	console.log(`Attempting to grab BSSID for file: ${file}`);
-
-	return new Promise((resolve, reject) => {
-		let aircrack = util.promisify(exec)(`aircrack-ng ${config.localDir}${file}`, function (error, stdout) {
-			if (error) {
-				resolve(resolve);
-			}
-		});
-
-		aircrack.stdout.on("data", (data) => {
-			if (data.indexOf("Choosing first network as target.") > -1 || data.indexOf("Index number of target network?") > -1) {
-				if (data.match(/\b([0-9A-F]{2}[:-]){5}([0-9A-F]){2}\b/gmi)) {
-					let mac = data.match(/\b([0-9A-F]{2}[:-]){5}([0-9A-F]){2}\b/gmi);
-
-					aircrack.kill("SIGTERM");
-					resolve(mac[0]);
-
-				} else {
-					resolve();
-				}
-			}
-		})
-	});
-}
-
 async function convertFile(file) {
 	return new Promise((resolve, reject) => {
 		// Exclude ".gitkeep" files
@@ -101,7 +58,7 @@ async function convertFile(file) {
 		}
 
 		// We favour PMKID's, if we find that we ignore handshakes, if no PMKID is found then we look for a handshake.
-		util.promisify(exec)(`hcxpcapngtool -o ./handshakes/pmkid/${file.replace(".pcap", "")}.pmkid ${config.localDir + file}`, function (error, stdout) {
+		util.promisify(exec)(`hcxpcapngtool -o ./handshakes/pmkid/${file.replace(".pcap", "")}.pmkid ${config.localDir}/${file}`, function (error, stdout) {
 			if (error) {
 				reject(error); // Reject the promise on error
 			}
@@ -112,7 +69,7 @@ async function convertFile(file) {
 				resolve("pmkid");
 			} else {
 				// If PMKID is not found, try converting to HCCAPX
-				util.promisify(exec)(`hcxpcapngtool -o ./handshakes/hccapx/${file.replace(".pcap", "")}.hc22000 ${config.localDir + file}`, function (error, stdout) {
+				util.promisify(exec)(`hcxpcapngtool -o ./handshakes/hccapx/${file.replace(".pcap", "")}.hc22000 ${config.localDir}/${file}`, function (error, stdout) {
 					if (error) {
 						reject(error); // Reject the promise on error
 						console.log(error);
@@ -138,7 +95,6 @@ async function main() {
 	try {
 		logo();
 
-		let bssids = await readBSSIDsFile();
 		let files  = await readDir();
 		
 		// if "/pmkid" doesn"t exist, create it.
@@ -153,40 +109,11 @@ async function main() {
 
 		// Loop over all pcap files
 		for (let file of files) {
-			// get ssid from filename
-			let pos  = file.lastIndexOf("_");
-			var ssid = file.substring(0, pos);
-
 			console.log(`\nProcessing: ${file}`);
 
-			if (bssids[file] == undefined) {
-				let result = await convertFile(file);
-
-				if (result == "pmkid" || result == "hccapx") {
-					let BSSID = await grabBSSID(file);
-					bssids[file] = {
-						"ssid": ssid,
-						"bssid": BSSID,
-						"type": result
-					};
-
-					console.log(`Successfully processed ${ssid}.\n`);
-				} else {
-					console.log(result);
-				}
-			} else {
-				if (bssids[file]["type"] == "pmkid") {
-					successfulPMKIDs++;
-				} else if (bssids[file]["type"] == "hccapx") {
-					successfulHCCAPXs++;
-				}
-				console.log(`${ssid} has already been converted.\n`);
-			}
+			let result = await convertFile(file);
+			console.log(`Results: ${result}`);
 		};
-
-		fs.writeFileSync("./handshakes/bssids.json", JSON.stringify(bssids), () => {
-			console.log("Saved bssids.json...\n\n");
-		});
 
 		let numFilesWithNoKeyMaterial = files.length - (successfulHCCAPXs + successfulPMKIDs);
 		let percentFilesWithNoKeyMaterial = Math.round(((numFilesWithNoKeyMaterial * 100) / files.length) * 100) / 100;
