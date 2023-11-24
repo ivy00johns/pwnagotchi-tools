@@ -12,7 +12,8 @@
 		"vagrant-up": "cd ./windows/vagrant && vagrant up --provision",
 		"vagrant-destroy": "cd ./windows/vagrant && vagrant destroy -f",
 		"most": "npm run generate && npm run attacks && npm run scripts",
-		"all": "npm run get && npm run most"
+		"all": "npm run get && npm run most",
+		"results": "node ./scripts/cracked-networks-results.js"
 	},
 	"repository": {
 		"type": "git",
@@ -29,6 +30,7 @@
 		"commander": "^11.1.0",
 		"fs": "^0.0.1-security",
 		"ssh2": "^1.14.0",
-		"ssh2-sftp-client": "^9.1.0"
+		"ssh2-sftp-client": "^9.1.0",
+		"table": "^6.8.1"
 	}
 }
