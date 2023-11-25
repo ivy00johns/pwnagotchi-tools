@@ -70,7 +70,6 @@ function ToggleCase(string) {
 	return string;
 }
 
-
 function Reverse(string) {
 	return string.split("").reverse().join("");
 }
@@ -340,7 +339,7 @@ function printLogo() {
 }
 
 printLogo();
-const result = generate(inputData, ruleData, true); // Replace true with your desired filterWiFi value
+const result = generate(inputData, ruleData, true);
 
 // Write result to output.txt
 try {

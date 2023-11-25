@@ -10,8 +10,9 @@
 	Processing: EXAMPLE_c8d71922525c.pcap
 	No PMKID or HCCAPX found.
 	```
-- [ ] Add status files that are easier to access and view like the original repo.
-- [ ] Add [tabular](https://www.npmjs.com/package/tabulator-tables) summaries like the original repo.
+- [ ] Add additional `.rule` files.
+- [ ] Add `results` to README.
+- [ ] Add `wordlist generator` to README. 
 
 ----
 
@@ -38,7 +39,7 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Windows](#windows-configuration)
 * [Additional Configuration Steps](#additional-configuration-steps)
 	* [Wordlists](#wordlists)
-		* [Personal Wordlist](#personal-wordlist)
+		* [Known Password Wordlist](#known-password-wordlist)
 		* [Custom Wordlists](#custom-wordlists)
 		* [Standalone Wordlists](#standalone-wordlists)
 		* [Standalone Dictionaries](#standalone-dictionaries)
@@ -166,7 +167,7 @@ WORDLISTS: [
 #### Unzip Windows
 1. `tar -zxvf .\hashcat\wordlists\rockyou.txt.gz`
 
-### Personal Wordlist
+### Known Password Wordlist
 * You can add your own known or suspected passwords by cloning the example wordlist and/or dictionary file and editing it.
 	1. `cp ./hashcat/known-passwords.example.txt ./hashcat/wordlists/known-passwords.txt`
 	2. `cp ./hashcat/known-passwords.example.dic ./hashcat/dictionaries/known-passwords.dic`
@@ -253,20 +254,31 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
 
 ### Included Rules
-* [hob064](https://github.com/praetorian-inc/Hob0Rules)
-* [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules)
-* [T0XICv1](https://github.com/samirettali/password-cracking-rules/blob/master/T0XlCv1.rule)
-* [T0XICv2](https://github.com/hashcat/hashcat/blob/master/rules/T0XlCv2.rule)
-* [toggles5](https://github.com/hashcat/hashcat/blob/master/rules/toggles5.rule)
-* [InsidePro-PasswordsPro](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-PasswordsPro.rule)
-* [rockyou-30000](https://github.com/hashcat/hashcat/blob/master/rules/rockyou-30000.rule)
-* [InsidePro-HashManager](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-HashManager.rule)
-* [d3ad0ne](https://github.com/hashcat/hashcat/blob/master/rules/d3ad0ne.rule)
-* [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule)
-* [unix-ninja-leetspeak](https://github.com/hashcat/hashcat/blob/master/rules/unix-ninja-leetspeak.rule)
-* [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule)
-* [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule)
-* [_NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule)
+* [_NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations.
+* [4-digit-append]() - 11,110 variations.
+* [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules) - 53 variations.
+* [bssid]() - ? variations.
+* [d3ad0ne](https://github.com/hashcat/hashcat/blob/master/rules/d3ad0ne.rule) - 12,513 variations.
+* [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule) - 57,489 variations.
+* [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule) - 35,090 variations.
+* [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule) - 22,499 variations.
+* [hob064](https://github.com/praetorian-inc/Hob0Rules) - 56 variations.
+* [InsidePro-PasswordsPro](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-PasswordsPro.rule) - 3,556 variations.
+* [InsidePro-HashManager](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-HashManager.rule) - 2,484 variations.
+* [names]() - 85 variations.
+* [OneRuleToRuleThemAll]() - 35,474 variations.
+* [passphrase-rule1]() - ? variations.
+* [passphrase-rule2]() - 75? variations.
+* [passphrases]() - ? variations.
+* [quick--sid]() - 54 variations.
+* [rockyou-30000](https://github.com/hashcat/hashcat/blob/master/rules/rockyou-30000.rule) - 20,777 variations.
+* [ssid-ninja]() - 42 variations.
+* [ssid]() - 82 variations.
+* [T0XICv1](https://github.com/samirettali/password-cracking-rules/blob/master/T0XlCv1.rule) - 9,537 variations.
+* [T0XICv2](https://github.com/hashcat/hashcat/blob/master/rules/T0XlCv2.rule) - 15,334 variations.
+* [toggles5](https://github.com/hashcat/hashcat/blob/master/rules/toggles5.rule) - ? variations.
+* [unix-ninja-leetspeak](https://github.com/hashcat/hashcat/blob/master/rules/unix-ninja-leetspeak.rule) - ? variations.
+* [wifi]() - 59 variations.
 
 ### Rule Combinations Generation 
 Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
@@ -295,6 +307,8 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	dpasswor
 	sswordpa
 	```
+
+**PLEASE NOTE**: There are certain rules in some `.rule` files that are not currently implemented in the `wordlist-combinations-generator.js` logic so the `x variations` counts can be lower than expected.
 
 ----
 
