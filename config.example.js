@@ -60,5 +60,10 @@ module.exports = {
 
 	// Length constraints for generated strings
 	MIN_LENGTH: 8, // Minimum length of generated strings
-	MAX_LENGTH: 25 // Maximum length of generated strings
+	MAX_LENGTH: 25, // Maximum length of generated strings
+
+	// Rule list permutations configurations
+	TEST_WORD_LIST: "./hashcat/generator/base-word.txt",
+	TEST_RULES_FILE: "./hashcat/rules/base64.rule",
+	TEST_RESULTS: "./hashcat/generator/wordlist-plus-rule-combinations.txt"
 };

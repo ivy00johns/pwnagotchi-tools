@@ -596,6 +596,7 @@ Cracking performance lower than expected?
 * [Pwnagotchi setup on Mac OS](https://mattgibson.ca/pwnagotchi-1-6-2-with-waveshare-v3-macos-macbook-host/)
 * https://cryptokait.com/2020/02/24/password-cracking-with-hashcat/
 * https://zzzteph.github.io/weakpass/
+* https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
 
 * Wordlists
 	* [Weakpass](https://weakpass.com/wordlist)
