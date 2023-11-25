@@ -16,12 +16,15 @@ function readFile(filePath) {
 }
 
 function readRules(filePath) {
-	try {
-		return fs.readFileSync(filePath, "utf8").split("\n");
-	} catch (error) {
-		console.error(`Error reading file ${filePath}: ${error.message}`);
-		process.exit(1);
-	}
+    try {
+        return fs.readFileSync(filePath, "utf8")
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line !== "");
+    } catch (error) {
+        console.error(`Error reading file ${filePath}: ${error.message}`);
+        process.exit(1);
+    }
 }
 
 function convertN(chr) {
@@ -353,4 +356,3 @@ try {
 } catch (error) {
 	console.error(`Error writing to ${outputFileName}: ${error.message}`);
 }
-  
