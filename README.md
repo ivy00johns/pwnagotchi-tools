@@ -20,7 +20,8 @@ This repo contains a number of scripts to automate the process of cracking Wi-Fi
 
 In order to create it I started by refactoring different repos that are no longer maintained.
 * [Pwnagotchi-Tools](https://github.com/mtagius/pwnagotchi-tools): [mtagius](https://github.com/mtagius)
-* [Pwnagetty](https://github.com/CyrisXD/Pwnagetty/): [CyrisXD](https://github.com/CyrisXD)
+* [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
+* [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
 # Table Of Contents
 * [Dependencies](#dependencies)
@@ -594,6 +595,7 @@ Cracking performance lower than expected?
 	* Default Pwnagotchi configuration file: [defaults.toml](https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/defaults.toml)
 * [Pwnagotchi setup on Mac OS](https://mattgibson.ca/pwnagotchi-1-6-2-with-waveshare-v3-macos-macbook-host/)
 * https://cryptokait.com/2020/02/24/password-cracking-with-hashcat/
+* https://zzzteph.github.io/weakpass/
 
 * Wordlists
 	* [Weakpass](https://weakpass.com/wordlist)
@@ -602,3 +604,4 @@ Cracking performance lower than expected?
 * Rules
 	* https://github.com/samirettali/password-cracking-rules
 	* [KoreLogic's](https://contest-2010.korelogic.com/rules-hashcat.html)
+	* https://hashcat.net/wiki/doku.php?id=rule_based_attack
