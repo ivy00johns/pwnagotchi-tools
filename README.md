@@ -254,7 +254,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
 
 ### Included Rules
-* [_NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations.
+* [NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations.
 * [4-digit-append]() - 11,110 variations.
 * [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules) - 53 variations.
 * [bssid]() - ? variations.
@@ -263,6 +263,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule) - 35,090 variations.
 * [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule) - 22,499 variations.
 * [hob064](https://github.com/praetorian-inc/Hob0Rules) - 56 variations.
+* [Incisive-leetspeak]() - ? variations.
 * [InsidePro-PasswordsPro](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-PasswordsPro.rule) - 3,556 variations.
 * [InsidePro-HashManager](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-HashManager.rule) - 2,484 variations.
 * [names]() - 85 variations.
