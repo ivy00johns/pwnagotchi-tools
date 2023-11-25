@@ -47,6 +47,7 @@ In order to create it I started by refactoring different repos that are no longe
 		* [OS X](#unzip-os-x)
 		* [Windows](#unzip-windows)
 	* [Rules](#rules)
+		* [Rule Combinations Generation](#rule-combinations-generation)
 * [Scripts](#scripts)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
 	* [Generate the .HC22000/.PMKID files.](#generate-the-hc22000pmkid-files)
@@ -266,6 +267,34 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule)
 * [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule)
 * [_NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule)
+
+### Rule Combinations Generation 
+Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
+
+* In the `config.js` file there are a few variables to help with this process. In them you can point to specific `.rule` and `.txt` files to create a list of the results when they are combined. By default it uses the `base-word.txt` file that contains the word `password`, and points to the `base64` rule set.
+	```javascript
+	...
+	// Rule list permutations configurations
+	TEST_WORD_LIST: "./hashcat/generator/base-word.txt",
+	TEST_RULES_FILE: "./hashcat/rules/best64.rule",
+	TEST_RESULTS: "./hashcat/generator/wordlist-plus-rule-combinations.txt"
+	...
+	```
+
+1. Run the `npm run combos` command to generate the list of strings that `hashcat` will use in it's work.
+2. With the default configuration you will get the following results, truncated for readability.
+	```text
+	password
+	sswordpasswordpa
+	swordpas
+	wordpass
+	ordpassw
+	rdpasswo
+	passwore
+	passwora
+	dpasswor
+	sswordpa
+	```
 
 ----
 
