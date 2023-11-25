@@ -8,7 +8,7 @@
 		"generate": "node ./pwnagetty/pwnagetty-generate.js",
 		"combos": "node ./hashcat/generator/wordlist-combinations-generator.js",
 		"attacks": "node ./scripts/generate-attacks-list.js",
-		"scripts": "node ./scripts/generate-hashcat-scripts.js && chmod +x ./hashcat/attack-scripts/*",
+		"scripts": "npm run attacks && node ./scripts/generate-hashcat-scripts.js && chmod +x ./hashcat/attack-scripts/*",
 		"vagrant-up": "cd ./windows/vagrant && vagrant up --provision",
 		"vagrant-destroy": "cd ./windows/vagrant && vagrant destroy -f",
 		"most": "npm run generate && npm run attacks && npm run scripts",
