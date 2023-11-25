@@ -1,7 +1,8 @@
 const fs = require("fs");
+const config = require("../../config");
 
-const inputData = readFile("./hashcat/generator/base-word.txt");
-const ruleData  = readRules("./hashcat/rules/best64.rule");
+const inputData = readFile(config.TEST_WORD_LIST);
+const ruleData  = readRules(config.TEST_RULES_FILE);
 
 function readFile(filePath) {
 	try {
@@ -330,10 +331,10 @@ function printLogo() {
 ╚███╔███╔╝███████╗██║  ██║██║  ██╗██║     ██║  ██║███████║███████║
  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝
 			
-	|===============================================|
-	|    Original Code Adapted For This Project.    |
-	| Github: https://github.com/zzzteph/weakpass   |
-	|===============================================|
+	|==================================================|
+	| Original Weakpass code adapted for this project. |
+	| Github: https://github.com/zzzteph/weakpass      |
+	|==================================================|
 `
 	);
 }
@@ -343,7 +344,7 @@ const result = generate(inputData, ruleData, true); // Replace true with your de
 
 // Write result to output.txt
 try {
-	fs.writeFileSync("wordlist-combinations.txt", result);
+	fs.writeFileSync(config.TEST_RESULTS, result);
 	console.log("Generation successful. Check wordlist-combinations.txt for the result.");
 } catch (error) {
 	console.error(`Error writing to wordlist-combinations.txt: ${error.message}`);
