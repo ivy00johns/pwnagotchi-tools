@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs     = require("fs");
 const config = require("../../config");
 
 const inputData = readFile(config.TEST_WORD_LIST);
@@ -16,15 +16,15 @@ function readFile(filePath) {
 }
 
 function readRules(filePath) {
-    try {
-        return fs.readFileSync(filePath, "utf8")
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line !== "");
-    } catch (error) {
-        console.error(`Error reading file ${filePath}: ${error.message}`);
-        process.exit(1);
-    }
+	try {
+		return fs.readFileSync(filePath, "utf8")
+			.split('\n')
+			.map(line => line.trim())
+			.filter(line => line !== "");
+	} catch (error) {
+		console.error(`Error reading file ${filePath}: ${error.message}`);
+		process.exit(1);
+	}
 }
 
 function convertN(chr) {
@@ -325,7 +325,7 @@ function generate(data, rules, filterWiFi) {
 // Print logo
 function printLogo() {
 	console.log(
-`
+		`
 ██╗    ██╗███████╗ █████╗ ██╗  ██╗██████╗  █████╗ ███████╗███████╗
 ██║    ██║██╔════╝██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝
 ██║ █╗ ██║█████╗  ███████║█████╔╝ ██████╔╝███████║███████╗███████╗
