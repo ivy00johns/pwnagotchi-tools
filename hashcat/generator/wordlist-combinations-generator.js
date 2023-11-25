@@ -349,7 +349,7 @@ const ruleFileName = config.TEST_RULES_FILE.split("/").pop().replace(/\.[^/.]+$/
 const outputFileName = `${ruleFileName}-${config.GENERIC_RESULTS_FILENAME}`;
 
 // Write result to the specified directory and filename
-const outputPath = `${config.RESULTS_DIRECTORY}${outputFileName}`;
+const outputPath = `${config.RESULTS_DIRECTORY}/${outputFileName}`;
 try {
 	fs.writeFileSync(outputPath, result);
 	console.log(`Generation successful. Check ${outputFileName} for the result. Lines written: ${result.split('\n').length}`);
