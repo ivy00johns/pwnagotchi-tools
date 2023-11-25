@@ -341,10 +341,15 @@ function printLogo() {
 printLogo();
 const result = generate(inputData, ruleData, true);
 
-// Write result to output.txt
+// Build the output filename based on the rule file name
+const ruleFileName = config.TEST_RULES_FILE.split("/").pop().replace(/\.[^/.]+$/, "");
+const outputFileName = `${ruleFileName}-${config.GENERIC_RESULTS_FILENAME}`;
+
+// Write result to the specified directory and filename
+const outputPath = `${config.RESULTS_DIRECTORY}${outputFileName}`;
 try {
-	fs.writeFileSync(config.TEST_RESULTS, result);
-	console.log("Generation successful. Check wordlist-combinations.txt for the result.");
+  fs.writeFileSync(outputPath, result);
+  console.log(`Generation successful. Check ${outputFileName} for the result.`);
 } catch (error) {
-	console.error(`Error writing to wordlist-combinations.txt: ${error.message}`);
+  console.error(`Error writing to ${outputFileName}: ${error.message}`);
 }
