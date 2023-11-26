@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs     = require("fs");
 const config = require("../../config");
 
 const inputData = readFile(config.TEST_WORD_LIST);
@@ -17,7 +17,10 @@ function readFile(filePath) {
 
 function readRules(filePath) {
 	try {
-		return fs.readFileSync(filePath, "utf8").split("\n");
+		return fs.readFileSync(filePath, "utf8")
+			.split('\n')
+			.map(line => line.trim())
+			.filter(line => line !== "");
 	} catch (error) {
 		console.error(`Error reading file ${filePath}: ${error.message}`);
 		process.exit(1);
@@ -322,7 +325,7 @@ function generate(data, rules, filterWiFi) {
 // Print logo
 function printLogo() {
 	console.log(
-`
+		`
 ██╗    ██╗███████╗ █████╗ ██╗  ██╗██████╗  █████╗ ███████╗███████╗
 ██║    ██║██╔════╝██╔══██╗██║ ██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝
 ██║ █╗ ██║█████╗  ███████║█████╔╝ ██████╔╝███████║███████╗███████╗
@@ -339,6 +342,7 @@ function printLogo() {
 }
 
 printLogo();
+
 const result = generate(inputData, ruleData, true);
 
 // Build the output filename based on the rule file name
@@ -346,10 +350,10 @@ const ruleFileName = config.TEST_RULES_FILE.split("/").pop().replace(/\.[^/.]+$/
 const outputFileName = `${ruleFileName}-${config.GENERIC_RESULTS_FILENAME}`;
 
 // Write result to the specified directory and filename
-const outputPath = `${config.RESULTS_DIRECTORY}${outputFileName}`;
+const outputPath = `${config.RESULTS_DIRECTORY}/${outputFileName}`;
 try {
-  fs.writeFileSync(outputPath, result);
-  console.log(`Generation successful. Check ${outputFileName} for the result.`);
+	fs.writeFileSync(outputPath, result);
+	console.log(`Generation successful. Check ${outputFileName} for the result. Lines written: ${result.split('\n').length}`);
 } catch (error) {
-  console.error(`Error writing to ${outputFileName}: ${error.message}`);
+	console.error(`Error writing to ${outputFileName}: ${error.message}`);
 }

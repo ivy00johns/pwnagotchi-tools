@@ -64,6 +64,7 @@ module.exports = {
 
 	// Rule list permutations configurations
 	TEST_WORD_LIST: "./hashcat/generator/base-word.txt",
-	TEST_RULES_FILE: "./hashcat/rules/base64.rule",
-	TEST_RESULTS: "./hashcat/generator/wordlist-plus-rule-combinations.txt"
+	TEST_RULES_FILE: "./hashcat/rules/__NSAKEY.v2.dive.rule",
+	RESULTS_DIRECTORY: "./hashcat/generator/results",
+  	GENERIC_RESULTS_FILENAME: "wordlist-plus-rule-combinations.txt"
 };

@@ -5,15 +5,16 @@
 	"main": "index.js",
 	"scripts": {
 		"get": "node ./pwnagetty/pwnagetty-get-pcaps.js",
-		"generate": "node ./pwnagetty/pwnagetty-generate.js",
-		"combos": "node ./hashcat/generator/wordlist-combinations-generator.js",
-		"attacks": "node ./scripts/generate-attacks-list.js",
-		"scripts": "node ./scripts/generate-hashcat-scripts.js && chmod +x ./hashcat/attack-scripts/*",
 		"vagrant-up": "cd ./windows/vagrant && vagrant up --provision",
 		"vagrant-destroy": "cd ./windows/vagrant && vagrant destroy -f",
+		"generate": "node ./pwnagetty/pwnagetty-generate.js",
+		"attacks": "node ./scripts/generate-attacks-list.js",
+		"scripts": "npm run attacks && node ./scripts/generate-hashcat-scripts.js && chmod +x ./hashcat/attack-scripts/*",
+		"results": "node ./scripts/cracked-networks-results.js",
+		"passwords": "node ./scripts/custom-wordlist-generator.js",
+		"combos": "node ./hashcat/generator/wordlist-combinations-generator.js",
 		"most": "npm run generate && npm run attacks && npm run scripts",
-		"all": "npm run get && npm run most",
-		"results": "node ./scripts/cracked-networks-results.js"
+		"all": "npm run get && npm run most"
 	},
 	"repository": {
 		"type": "git",

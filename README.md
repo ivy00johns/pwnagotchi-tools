@@ -4,16 +4,6 @@
 ### This project is for WiFi security education purposes ONLY!
 ### Hacking WiFi networks that you DO NOT OWN IS ILLEGAL!
 
-## TO-DO
-- [ ] Correct the counters staying at 0 even though keys are located and files are generated.
-	```bash
-	Processing: EXAMPLE_c8d71922525c.pcap
-	No PMKID or HCCAPX found.
-	```
-- [ ] Add additional `.rule` files.
-- [ ] Add `results` to README.
-- [ ] Add `wordlist generator` to README. 
-
 ----
 
 # Purpose
@@ -23,6 +13,17 @@ In order to create it I started by refactoring different repos that are no longe
 * [Pwnagotchi-Tools](https://github.com/mtagius/pwnagotchi-tools): [mtagius](https://github.com/mtagius)
 * [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
+
+## Provided Tools
+* `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
+* `npm run generate`: Generate the `.hc22000` and `.pmkid` files for `hashcat` to crack based on the `.pcap` files you download.
+* `npm run attacks`: Generate a list of attacks based on the variables listed in the `config.js` file.
+* `npm run scripts`: Generate a list of attack scripts based on the `attacks-list.js` file.
+* `npm run results`: Displays a list of cracked networks in the terminal.
+* `npm run passwords`: Generate a custom wordlist containing all combinations of the `WORD_LIST` in the `config.js` file.
+* `npm run combos`: Generate the results of what happens when a `.rule` file is applied to a wordlist file for a better understanding of what `.rule` files do in `hashcat`.
 
 # Table Of Contents
 * [Dependencies](#dependencies)
@@ -65,9 +66,8 @@ In order to create it I started by refactoring different repos that are no longe
 			* [--attack-mode=6](#attack-mode6)
 	* [Execute the handshake attacks.](#execute-the-handshake-attacks)
 		* [Example Terminal Output](#example-terminal-output)
+	* [Results](#cracked-networks-results)
 * [Troubleshooting](#troubleshooting)
-	* [Issue #1](#issue-1)
-	* [Issue #2](#issue-2---windows)
 * [Links](#links)
 
 # Dependencies
@@ -136,6 +136,7 @@ In order to create it I started by refactoring different repos that are no longe
 		PASSWORD: "", // Pwnagotchi SSH password
 		PORT: 22 // Pwnagotchi SSH port
 	},
+
 	// Windows configuration
 	WINDOWS: false, // Flag to indicate if running on Windows
 	HASHCAT_PATH: "C:\\[PATH]\\hashcat-6.2.6", // Path to Hashcat on Windows
@@ -173,7 +174,8 @@ WORDLISTS: [
 	2. `cp ./hashcat/known-passwords.example.dic ./hashcat/dictionaries/known-passwords.dic`
 
 ### Custom Wordlists
-You can generate a list of possible passwords based on a couple of clues that could be used to build the password.
+You can generate a list of possible passwords based on a couple of clues that could have be used to build the password you want to crack.
+
 ```javascript
 ...
 // General configurations
@@ -184,15 +186,30 @@ WORD_LIST: [], // List of words for generation
 MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given string
 ...
 ```
+
 1. Edit the `config.js` file and add your clue to the `WORD_LIST: []` array.
 	- `WORD_LIST: [A, B, C, D, E]`
 2. Set the `WORD_LIST` variable to config how many words will be contained in the final results:
 	* 1 => `[A, B, C, D, E]` - 5 results
 	* 2 => `[A, B, C, D, E, AB, AC, AD, AE, BA, BC, BD, BE, CA, CB, CD, CE, DA, DB, DC, DE, EA, EB, EC, ED]` - 25 results
-3. Then run `npm run passwords` to generate a list of possible passwords.
+	* Etc...
+3. Run the `npm run passwords` command to generate a list of possible password combinations.
 	* `["A", "AB", "AC", "AD", "AE", "B", "BA", "BC", "BD", "BE", "C", "CA", "CB", "CD", "CE", "D", "DA", "DB", "DC", "DE", "E", "EA", "EB", "EC", "ED"]`
 4. It will export the list to a `.txt` file at the specificed location, `EXPORT_FILE_NAME`, by default:
 	* `./hashcat/wordlists/generated-passwords.txt`
+5. For example say you set the `WORD_LIST:` to `["cat", "dog", "rat"]`, you would get the following results:
+	```text
+	cat
+	catdog
+	catrat
+	dog
+	dogcat
+	dograt
+	rat
+	ratcat
+	ratdog
+	```
+6. You can then use the `generated-passwords.txt` file to try and crack the network passowrd by running `npm run scripts` again and looking for the wordlist in the generated script file for a given network.
 
 ### Standalone Wordlists
 * [netgear-spectrum.txt](https://raw.githubusercontent.com/soxrok2212/PSKracker/master/dicts/netgear-spectrum/netgear-spectrum.txt)
@@ -254,31 +271,32 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
 
 ### Included Rules
-* [_NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations.
-* [4-digit-append]() - 11,110 variations.
-* [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules) - 53 variations.
-* [bssid]() - ? variations.
-* [d3ad0ne](https://github.com/hashcat/hashcat/blob/master/rules/d3ad0ne.rule) - 12,513 variations.
-* [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule) - 57,489 variations.
-* [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule) - 35,090 variations.
-* [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule) - 22,499 variations.
-* [hob064](https://github.com/praetorian-inc/Hob0Rules) - 56 variations.
-* [InsidePro-PasswordsPro](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-PasswordsPro.rule) - 3,556 variations.
-* [InsidePro-HashManager](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-HashManager.rule) - 2,484 variations.
-* [names]() - 85 variations.
-* [OneRuleToRuleThemAll]() - 35,474 variations.
-* [passphrase-rule1]() - ? variations.
-* [passphrase-rule2]() - 75? variations.
-* [passphrases]() - ? variations.
-* [quick--sid]() - 54 variations.
-* [rockyou-30000](https://github.com/hashcat/hashcat/blob/master/rules/rockyou-30000.rule) - 20,777 variations.
-* [ssid-ninja]() - 42 variations.
-* [ssid]() - 82 variations.
-* [T0XICv1](https://github.com/samirettali/password-cracking-rules/blob/master/T0XlCv1.rule) - 9,537 variations.
-* [T0XICv2](https://github.com/hashcat/hashcat/blob/master/rules/T0XlCv2.rule) - 15,334 variations.
-* [toggles5](https://github.com/hashcat/hashcat/blob/master/rules/toggles5.rule) - ? variations.
-* [unix-ninja-leetspeak](https://github.com/hashcat/hashcat/blob/master/rules/unix-ninja-leetspeak.rule) - ? variations.
-* [wifi]() - 59 variations.
+* [NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations per word.
+* [4-digit-append]() - 11,110 variations per word.
+* [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules) - 53 variations per word.
+* [bssid]() - ? variations per word.
+* [d3ad0ne](https://github.com/hashcat/hashcat/blob/master/rules/d3ad0ne.rule) - 12,513 variations per word.
+* [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule) - 57,489 variations per word.
+* [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule) - 35,090 variations per word.
+* [generated2](https://github.com/hashcat/hashcat/blob/master/rules/generated2.rule) - 22,499 variations per word.
+* [hob064](https://github.com/praetorian-inc/Hob0Rules) - 56 variations per word.
+* [Incisive-leetspeak]() - ? variations per word.
+* [InsidePro-PasswordsPro](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-PasswordsPro.rule) - 3,556 variations per word.
+* [InsidePro-HashManager](https://github.com/hashcat/hashcat/blob/master/rules/InsidePro-HashManager.rule) - 2,484 variations per word.
+* [names]() - 85 variations per word.
+* [OneRuleToRuleThemAll]() - 35,474 variations per word.
+* [passphrase-rule1]() - ? variations per word.
+* [passphrase-rule2]() - 75? variations per word.
+* [passphrases]() - ? variations per word.
+* [quick--sid]() - 54 variations per word.
+* [rockyou-30000](https://github.com/hashcat/hashcat/blob/master/rules/rockyou-30000.rule) - 20,777 variations per word.
+* [ssid-ninja]() - 42 variations per word.
+* [ssid]() - 82 variations per word.
+* [T0XICv1](https://github.com/samirettali/password-cracking-rules/blob/master/T0XlCv1.rule) - 9,537 variations per word.
+* [T0XICv2](https://github.com/hashcat/hashcat/blob/master/rules/T0XlCv2.rule) - 15,334 variations per word.
+* [toggles5](https://github.com/hashcat/hashcat/blob/master/rules/toggles5.rule) - ? variations per word.
+* [unix-ninja-leetspeak](https://github.com/hashcat/hashcat/blob/master/rules/unix-ninja-leetspeak.rule) - ? variations per word.
+* [wifi]() - 59 variations per word.
 
 ### Rule Combinations Generation 
 Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
@@ -288,12 +306,13 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	...
 	// Rule list permutations configurations
 	TEST_WORD_LIST: "./hashcat/generator/base-word.txt",
-	TEST_RULES_FILE: "./hashcat/rules/best64.rule",
-	TEST_RESULTS: "./hashcat/generator/wordlist-plus-rule-combinations.txt"
+	TEST_RULES_FILE: "./hashcat/rules/_NSAKEY.v2.dive.rule",
+	RESULTS_DIRECTORY: "./hashcat/generator/results",
+  	GENERIC_RESULTS_FILENAME: "wordlist-plus-rule-combinations.txt"
 	...
 	```
 
-1. Run the `npm run combos` command to generate the list of strings that `hashcat` will use in it's work.
+1. Run the `npm run combos` command to generate the list of strings that `hashcat` will use in its work.
 2. With the default configuration you will get the following results, truncated for readability.
 	```text
 	password
@@ -549,54 +568,19 @@ Hardware.Mon.#1..: Util: 95%
 Stopped: Sun Nov 12 20:02:49 2023
 ```
 
+## Cracked Networks Results
+1. Run `npm run results` to check which networks have been successfully cracked.
+2. Example results:
+```bash
+╔══════════════╤══════════╤═══════════════════════════╗
+║ NETWORK NAME │ PASSWORD │ a0648f5681d7:92b3f0038eed ║
+╚══════════════╧══════════╧═══════════════════════════╝
+```
+
 ----
 
 # Troubleshooting
-## Issue #1
-1. If you get the error, `Integer overflow detected in keyspace of mask: ?h?h?h?h?h?h?h?h`, do the following.
-* *TERMINAL OUTPUT*
-	```bash
-	hashcat (v6.2.6) starting
-
-	* Device #2: Apple's OpenCL drivers (GPU) are known to be unreliable.
-				You have been warned.
-
-	METAL API (Metal 341.16)
-	========================
-	* Device #1: Apple M1, 5408/10922 MB, 8MCU
-
-	OpenCL API (OpenCL 1.2 (Aug  5 2023 05:54:47)) - Platform #1 [Apple]
-	====================================================================
-	* Device #2: Apple M1, skipped
-
-	Minimum password length supported by kernel: 8
-	Maximum password length supported by kernel: 63
-
-	Hashes: 36 digests; 12 unique digests, 1 unique salts
-	Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
-
-	Optimizers applied:
-	* Zero-Byte
-	* Single-Salt
-	* Slow-Hash-SIMD-LOOP
-
-	Watchdog: Temperature abort trigger set to 100c
-
-	Host memory required for this attack: 281 MB
-
-	Integer overflow detected in keyspace of mask: ?h?h?h?h?h?h?h?h
-
-	Started: Sun Nov 12 22:14:36 2023
-	Stopped: Sun Nov 12 22:14:38 2023
-	```
-
-* *ERROR*
-	* `Integer overflow detected in keyspace of mask: ?h?h?h?h?h?h?h?h`
-
-* *SOLUTION*
-	* TBA
-
-## Issue #2 - WINDOWS
+## Issue #1 - WINDOWS
 1. If you see the following error,`./OpenCL/: No such file or directory`, do the following.
 * *TERMINAL OUTPUT*
 ```bash
@@ -615,20 +599,6 @@ Stopped: Mon Nov 13 02:02:16 2023
 
 * *SOLUTION*
 	* If you are running a single line in the `.bat` file, outside of the `.bat` file, ensure that you `cd` insto the `hashcat` installation directory.
-
-## Issue #3
-```bash
-Cracking performance lower than expected?
-
-* Append -w 3 to the commandline.
-  This can cause your screen to lag.
-
-* Update your backend API runtime / driver the right way:
-  https://hashcat.net/faq/wrongdriver
-
-* Create more work items to make use of your parallelization power:
-  https://hashcat.net/faq/morework
-```
 
 ----
 
@@ -649,3 +619,12 @@ Cracking performance lower than expected?
 	* https://github.com/samirettali/password-cracking-rules
 	* [KoreLogic's](https://contest-2010.korelogic.com/rules-hashcat.html)
 	* https://hashcat.net/wiki/doku.php?id=rule_based_attack
+
+----
+
+# TO-DO
+- [ ] Correct the counters staying at 0 even though keys are located and files are generated.
+	```bash
+	Processing: EXAMPLE_c8d71922525c.pcap
+	No PMKID or HCCAPX found.
+	```
