@@ -300,7 +300,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [unix-ninja-leetspeak](https://github.com/hashcat/hashcat/blob/master/rules/unix-ninja-leetspeak.rule) - ? variations per word.
 * [wifi]() - 59 variations per word.
 
-### Rule Combinations Generation
+### Rule Combinations Generation 
 Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
 
 * In the `config.js` file there are a few variables to help with this process. In them you can point to specific `.rule` and `.txt` files to create a list of the results when they are combined. By default it uses the `base-word.txt` file that contains the word `password`, and points to the `base64` rule set.
