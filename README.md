@@ -49,6 +49,7 @@ In order to create it I started by refactoring different repos that are no longe
 		* [OS X](#unzip-os-x)
 		* [Windows](#unzip-windows)
 	* [Rules](#rules)
+		* [Included Rules](#included-rules)
 		* [Rule Combinations Generation](#rule-combinations-generation)
 * [Scripts](#scripts)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
@@ -275,6 +276,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [4-digit-append]() - 11,110 variations per word.
 * [best64](https://trustedsec.com/blog/better-hacking-through-cracking-know-your-rules) - 53 variations per word.
 * [bssid]() - ? variations per word.
+* [clem9669_medium](https://github.com/clem9669/hashcat-rule) - 160,362 variations per word.
 * [d3ad0ne](https://github.com/hashcat/hashcat/blob/master/rules/d3ad0ne.rule) - 12,513 variations per word.
 * [d3adhob0](https://github.com/praetorian-inc/Hob0Rules/blob/master/d3adhob0.rule) - 57,489 variations per word.
 * [dive](https://github.com/hashcat/hashcat/blob/master/rules/dive.rule) - 35,090 variations per word.
@@ -580,25 +582,7 @@ Stopped: Sun Nov 12 20:02:49 2023
 ----
 
 # Troubleshooting
-## Issue #1 - WINDOWS
-1. If you see the following error,`./OpenCL/: No such file or directory`, do the following.
-* *TERMINAL OUTPUT*
-```bash
-PS C:\Users\John\pwnagotchi-tools> hashcat --hash-type=22000 --attack-mode=0 --session EXAMPLE_a0648f5681d7_6450 --hwmon-temp-abort=100 -w 2 --potfile-path="./hashcat/pa0648f5681d7_6450-potfile.txt" --outfile="./hashcat/outputs/EXAMPLE_a0648f5681d7_6450-outfile.txt" "./handshakes/hccapx/EXAMPLE_a0648f5681d7.hc22000" --rules-file=".rule" -S "./wordlists/shortKrak.txt"
->>
-hashcat (v6.2.6) starting
-
-./OpenCL/: No such file or directory
-
-Started: Mon Nov 13 02:02:16 2023
-Stopped: Mon Nov 13 02:02:16 2023
-```
-
-* *ERROR*
-	* `./OpenCL/: No such file or directory`
-
-* *SOLUTION*
-	* If you are running a single line in the `.bat` file, outside of the `.bat` file, ensure that you `cd` insto the `hashcat` installation directory.
+## Issue #1 - TBD
 
 ----
 
@@ -628,3 +612,5 @@ Stopped: Mon Nov 13 02:02:16 2023
 	Processing: EXAMPLE_c8d71922525c.pcap
 	No PMKID or HCCAPX found.
 	```
+- [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
+- [ ] Create a CLI interface for executing scripts that are generated.
