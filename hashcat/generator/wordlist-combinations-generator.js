@@ -342,6 +342,7 @@ function printLogo() {
 }
 
 printLogo();
+
 const result = generate(inputData, ruleData, true);
 
 // Build the output filename based on the rule file name
