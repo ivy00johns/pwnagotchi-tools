@@ -14,7 +14,8 @@
 		"passwords": "node ./scripts/custom-wordlist-generator.js",
 		"combos": "node ./hashcat/generator/wordlist-combinations-generator.js",
 		"most": "npm run generate && npm run attacks && npm run scripts",
-		"all": "npm run get && npm run most"
+		"all": "npm run get && npm run most",
+		"cli": "node ./cli/cli.mjs "
 	},
 	"repository": {
 		"type": "git",
@@ -28,8 +29,16 @@
 	},
 	"homepage": "https://github.com/ivy00johns/pwnagotchi-tools#readme",
 	"dependencies": {
+		"chalk": "^5.3.0",
+		"clear": "^0.1.0",
+		"clipboardy": "^4.0.0",
+		"clui": "^0.3.6",
 		"commander": "^11.1.0",
+		"configstore": "^6.0.0",
+		"figlet": "^1.7.0",
 		"fs": "^0.0.1-security",
+		"inquirer": "^9.2.12",
+		"minimist": "^1.2.8",
 		"ssh2": "^1.14.0",
 		"ssh2-sftp-client": "^9.1.0",
 		"table": "^6.8.1"

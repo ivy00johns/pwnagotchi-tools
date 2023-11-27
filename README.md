@@ -594,6 +594,7 @@ Stopped: Sun Nov 12 20:02:49 2023
 * https://cryptokait.com/2020/02/24/password-cracking-with-hashcat/
 * https://zzzteph.github.io/weakpass/
 * https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
+* https://github.com/SBoudrias/Inquirer.js/tree/master
 
 * Wordlists
 	* [Weakpass](https://weakpass.com/wordlist)
