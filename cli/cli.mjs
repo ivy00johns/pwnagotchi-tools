@@ -12,7 +12,7 @@ import * as path from "path";
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname  = dirname(__filename);
 
 // Set the project directory
 const projectDirectory = __dirname;
@@ -24,11 +24,11 @@ const Spinner = CLI.Spinner;
 const HASH_TYPE = 22000;
 const ABORT_TEMPERATURE = 100;
 const ABORT_WAIT_TIME = 2;
-const LOCAL_HCCAPX_DIRECTORY = "./handshakes/hccapx";
-const LOCAL_POTFILES_DIRECTORY = "./hashcat/potfiles";
+const LOCAL_HCCAPX_DIRECTORY      = "./handshakes/hccapx";
+const LOCAL_POTFILES_DIRECTORY    = "./hashcat/potfiles";
 const LOCAL_OUTPUT_FILE_DIRECTORY = "./hashcat/outputs";
-const LOCAL_RULES_DIRECTORY = "./hashcat/rules";
-const LOCAL_WORLISTS_DIRECTORY = "./hashcat/wordlists";
+const LOCAL_RULES_DIRECTORY       = "./hashcat/rules";
+const LOCAL_WORLISTS_DIRECTORY    = "./hashcat/wordlists";
 
 // Generate a random number
 const randomNumber = Math.floor(Math.random() * 1000);
@@ -65,7 +65,7 @@ async function runCommandOrCopyToClipboard(command) {
 		name: "action",
 		message: "Select an action:",
 		choices: ["Execute", "Copy to Clipboard", "Cancel"],
-	}, ]);
+	}]);
 
 	if (action === "Cancel") {
 		console.log(chalk.yellow("Action canceled."));
@@ -107,7 +107,7 @@ async function run() {
 		name: "commandType",
 		message: "Select a command type:",
 		choices: ["Standard Commands", "Custom Command", "Exit"],
-	}, ]);
+	}]);
 
 	if (commandType === "Exit") {
 		console.log(chalk.yellow("Goodbye!"));
@@ -126,7 +126,7 @@ async function run() {
 				name: "Exit",
 				value: "exit"
 			}],
-		}, ]);
+		}]);
 
 		if (command !== "exit") {
 			const status = new Spinner("Loading...");
@@ -158,7 +158,7 @@ async function run() {
 			name: "selectedHccapx",
 			message: "Select an hccapx file:",
 			choices: [...hccapxFiles, "NONE"],
-		}, ]);
+		}]);
 
 		const {
 			selectedWordlist
@@ -167,7 +167,7 @@ async function run() {
 			name: "selectedWordlist",
 			message: "Select a wordlist file:",
 			choices: [...wordlistFiles, "NONE"],
-		}, ]);
+		}]);
 
 		const {
 			selectedRules
@@ -176,7 +176,7 @@ async function run() {
 			name: "selectedRules",
 			message: "Select a rules file:",
 			choices: [...rulesFiles, "NONE"],
-		}, ]);
+		}]);
 
 		// Generate and display the custom command
 		const customCommand = generateCustomCommand(selectedHccapx, selectedWordlist, selectedRules);
@@ -192,7 +192,7 @@ function generateCustomCommand(hccapx, wordlist, rules) {
 	const sessionBaseName = hccapx.replace(/\.hc22000$/, "");
 	const ruleName = rules.replace(/\.txt$/, "");
 	const wordlistName = wordlist.replace(/\.txt$/, "");
-	const sessionName = `${sessionBaseName}-${randomNumber}`;
+	const sessionName  = `${sessionBaseName}-${randomNumber}`;
 
 	const wordlistPath = `${path.join(projectDirectory, "..", LOCAL_WORLISTS_DIRECTORY, wordlistName)}.txt`;
 	const rulePath     = `${path.join(projectDirectory, "..", LOCAL_RULES_DIRECTORY, ruleName)}`;
