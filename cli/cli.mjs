@@ -146,7 +146,7 @@ async function run() {
 			type: "list",
 			name: "selectedHccapx",
 			message: "Select an hccapx file:",
-			choices: [...hccapxFiles, "NONE"],
+			choices: [...hccapxFiles],
 		}]);
 
 		const {
