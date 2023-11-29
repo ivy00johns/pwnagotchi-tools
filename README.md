@@ -9,6 +9,8 @@
 # Purpose
 This repo contains a number of scripts to automate the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems.
 
+![Pwnagotchi Logo](./images/pwnagotchi.gif)
+
 In order to create it I started by refactoring different repos that are no longer maintained.
 * [Pwnagotchi-Tools](https://github.com/mtagius/pwnagotchi-tools): [mtagius](https://github.com/mtagius)
 * [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
@@ -340,13 +342,21 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 Are you looking to quickly build and execute `hashcat` commands? Well you are in luck, I have added `cli` tooling to do just that. 
 
 1. Run `npm run cli` to get started.
+![](./images/cli-1.png)
 2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json`.
 	1. Then select the command that you would like to execute.
-3. If you select `Custom Command` you can build a custom command.
+	![](./images/cli-2.png)
+3. If you select `Custom Command` you can build a custom command.)
 	1. Select a `.hc22000` file that you would like to crack.
+	![](./images/cli-3.png)
 	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
+	![](./images/cli-4.png)
 	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
+	![](./images/cli-5.png)
 4. You can choose to either `Execute` the command or `Copy to Clipboard`.
+![](./images/cli-6.png)
+![](./images/cli-7.png)
+![](./images/cli-8.png)
 
 ## Copy the .PCAP files to your machine.
 To copy the `.pcap` files from your `Pwnagotchi` run the following script.
