@@ -189,11 +189,11 @@ function generateCustomCommand(hccapx, wordlist, rules) {
 	const potfilePath  = `${path.join(projectDirectory, "..", config.LOCAL_POTFILES_DIRECTORY, `${sessionName}-potfile.txt`)}`;
 	const hccapxPath   = `${path.join(projectDirectory, "..", config.LOCAL_HCCAPX_DIRECTORY, hccapx)}`;
 
-	if (wordlist !== "" && rules !== "") {
+	if (wordlist !== "NONE" && rules !== "NONE") {
 		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S "${wordlistPath}"`;
-	} else if (wordlist !== "" && rules === "") {
+	} else if (wordlist === "NONE" && rules !== "NONE") {
 		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
-	} else if (wordlist === "" && rules !== "") {
+	} else if (wordlist !== "NONE" && rules === "NONE") {
 		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" -S "${wordlistPath}"`
 	} else {
 		console.log(`No command present.`);

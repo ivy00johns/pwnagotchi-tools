@@ -1,8 +1,8 @@
 # pwnagotchi-tooling
 
 # DISCLAIMER
-### This project is for WiFi security education purposes ONLY!
-### Hacking WiFi networks that you DO NOT OWN IS ILLEGAL!
+## This project is for WiFi security education purposes ONLY!
+## Hacking WiFi networks that you DO NOT OWN IS ILLEGAL!
 
 ----
 
@@ -15,6 +15,7 @@ In order to create it I started by refactoring different repos that are no longe
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
 ## Provided Tools
+* `npm run cli`: Run the availabe `npm run` commands as well as building`hashcat` scripts quickly.
 * `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
@@ -52,6 +53,7 @@ In order to create it I started by refactoring different repos that are no longe
 		* [Included Rules](#included-rules)
 		* [Rule Combinations Generation](#rule-combinations-generation)
 * [Scripts](#scripts)
+	* [CLI](#cli)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
 	* [Generate the .HC22000/.PMKID files.](#generate-the-hc22000pmkid-files)
 		* [OS X](#os-x---generate)
@@ -334,6 +336,18 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 ----
 
 # Scripts
+## CLI
+Are you looking to quickly build and execute `hashcat` commands? Well you are in luck, I have added `cli` tooling to do just that. 
+
+1. Run `npm run cli` to get started.
+2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json`.
+	1. Then select the command that you would like to execute.
+3. If you select `Custom Command` you can build a custom command.
+	1. Select a `.hc22000` file that you would like to crack.
+	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
+	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
+4. You can choose to either `Execute` the command or `Copy to Clipboard`.
+
 ## Copy the .PCAP files to your machine.
 To copy the `.pcap` files from your `Pwnagotchi` run the following script.
 It will copy the files from the `/root/handshakes` directory on the `Pwnagotchi` to one that you can access from your machine, `/usr/[USERNAME]/handshakes`.
@@ -614,4 +628,6 @@ Stopped: Sun Nov 12 20:02:49 2023
 	No PMKID or HCCAPX found.
 	```
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
-- [ ] Create a CLI interface for executing scripts that are generated.
+- [ ] Adding support for masks.
+- [ ] Find better names for the functions and commands.
+ 
