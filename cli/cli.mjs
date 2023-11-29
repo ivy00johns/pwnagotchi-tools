@@ -147,9 +147,9 @@ async function run() {
 		console.log(chalk.blue("You selected Custom Command."));
 
 		// Implement your custom command logic here
-		const hccapxFiles = fs.readdirSync(LOCAL_HCCAPX_DIRECTORY);
-		const wordlistFiles = fs.readdirSync(LOCAL_WORLISTS_DIRECTORY).filter(file => !file.endsWith(".gitignore"));
-		const rulesFiles = fs.readdirSync(LOCAL_RULES_DIRECTORY).filter(file => !file.endsWith(".gitignore"));
+		const hccapxFiles = fs.readdirSync(LOCAL_HCCAPX_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const wordlistFiles = fs.readdirSync(LOCAL_WORLISTS_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const rulesFiles = fs.readdirSync(LOCAL_RULES_DIRECTORY).filter(file => !file.includes(".gitkeep"));
 
 		const {
 			selectedHccapx
@@ -200,12 +200,14 @@ function generateCustomCommand(hccapx, wordlist, rules) {
 	const potfilePath  = `${path.join(projectDirectory, "..", LOCAL_POTFILES_DIRECTORY, `${sessionName}-potfile.txt`)}`;
 	const hccapxPath   = `${path.join(projectDirectory, "..", LOCAL_HCCAPX_DIRECTORY, hccapx)}`;
 
-	if (wordlist !== "NONE" && rules !== "NONE") {
+	if (wordlist !== "" && rules !== "") {
 		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S "${wordlistPath}"`;
-	} else if (wordlist !== "NONE" && rules === "") {
+	} else if (wordlist !== "" && rules === "") {
 		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
-	} else if (wordlist === "" && rules !== "NONE") {
+	} else if (wordlist === "" && rules !== "") {
 		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" -S "${wordlistPath}"`
+	} else {
+		console.log(`No command present.`);
 	}
 }
 
