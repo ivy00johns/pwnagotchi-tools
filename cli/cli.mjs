@@ -1,6 +1,4 @@
 import chalk from "chalk";
-import clear from "clear";
-import figlet from "figlet";
 import inquirer from "inquirer";
 import CLI from "clui";
 import fs from "fs";
@@ -9,6 +7,7 @@ import clipboardy from "clipboardy";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import * as path from "path";
+import config from "../config.js";
 
 // Get the current file and directory names
 const __filename = fileURLToPath(import.meta.url);
@@ -19,16 +18,6 @@ const projectDirectory = __dirname;
 
 // CLI components
 const Spinner = CLI.Spinner;
-
-// Constants
-const HASH_TYPE = 22000;
-const ABORT_TEMPERATURE = 100;
-const ABORT_WAIT_TIME = 2;
-const LOCAL_HCCAPX_DIRECTORY      = "./handshakes/hccapx";
-const LOCAL_POTFILES_DIRECTORY    = "./hashcat/potfiles";
-const LOCAL_OUTPUT_FILE_DIRECTORY = "./hashcat/outputs";
-const LOCAL_RULES_DIRECTORY       = "./hashcat/rules";
-const LOCAL_WORLISTS_DIRECTORY    = "./hashcat/wordlists";
 
 // Generate a random number
 const randomNumber = Math.floor(Math.random() * 1000);
@@ -147,9 +136,9 @@ async function run() {
 		console.log(chalk.blue("You selected Custom Command."));
 
 		// Implement your custom command logic here
-		const hccapxFiles = fs.readdirSync(LOCAL_HCCAPX_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const wordlistFiles = fs.readdirSync(LOCAL_WORLISTS_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const rulesFiles = fs.readdirSync(LOCAL_RULES_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const hccapxFiles = fs.readdirSync(config.LOCAL_HCCAPX_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const rulesFiles = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => !file.includes(".gitkeep"));
 
 		const {
 			selectedHccapx
@@ -194,18 +183,18 @@ function generateCustomCommand(hccapx, wordlist, rules) {
 	const wordlistName = wordlist.replace(/\.txt$/, "");
 	const sessionName  = `${sessionBaseName}-${randomNumber}`;
 
-	const wordlistPath = `${path.join(projectDirectory, "..", LOCAL_WORLISTS_DIRECTORY, wordlistName)}.txt`;
-	const rulePath     = `${path.join(projectDirectory, "..", LOCAL_RULES_DIRECTORY, ruleName)}`;
-	const outputPath   = `${path.join(projectDirectory, "..", LOCAL_OUTPUT_FILE_DIRECTORY, `${sessionName}-output.txt`)}`;
-	const potfilePath  = `${path.join(projectDirectory, "..", LOCAL_POTFILES_DIRECTORY, `${sessionName}-potfile.txt`)}`;
-	const hccapxPath   = `${path.join(projectDirectory, "..", LOCAL_HCCAPX_DIRECTORY, hccapx)}`;
+	const wordlistPath = `${path.join(projectDirectory, "..", config.LOCAL_WORLISTS_DIRECTORY, wordlistName)}.txt`;
+	const rulePath     = `${path.join(projectDirectory, "..", config.LOCAL_RULES_DIRECTORY, ruleName)}`;
+	const outputPath   = `${path.join(projectDirectory, "..", config.LOCAL_OUTPUT_FILE_DIRECTORY, `${sessionName}-output.txt`)}`;
+	const potfilePath  = `${path.join(projectDirectory, "..", config.LOCAL_POTFILES_DIRECTORY, `${sessionName}-potfile.txt`)}`;
+	const hccapxPath   = `${path.join(projectDirectory, "..", config.LOCAL_HCCAPX_DIRECTORY, hccapx)}`;
 
 	if (wordlist !== "" && rules !== "") {
-		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S "${wordlistPath}"`;
+		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S "${wordlistPath}"`;
 	} else if (wordlist !== "" && rules === "") {
-		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
+		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
 	} else if (wordlist === "" && rules !== "") {
-		return `hashcat --hash-type=${HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${ABORT_TEMPERATURE} -w ${ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" -S "${wordlistPath}"`
+		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" -S "${wordlistPath}"`
 	} else {
 		console.log(`No command present.`);
 	}
