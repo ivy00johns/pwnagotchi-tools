@@ -206,5 +206,4 @@ function generateCustomCommand(hccapx, wordlist, rules) {
 	}
 }
 
-// Run the main function
 run();

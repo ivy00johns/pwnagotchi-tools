@@ -143,7 +143,7 @@ In order to create it I started by refactoring different repos that are no longe
 	},
 
 	// Windows configuration
-	WINDOWS: false, // Flag to indicate if running on Windows
+	WINDOWS: true, // Flag to indicate if running on Windows
 	HASHCAT_PATH: "C:\\[PATH]\\hashcat-6.2.6", // Path to Hashcat on Windows
 	...
 	```
@@ -192,9 +192,9 @@ MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given s
 ...
 ```
 
-1. Edit the `config.js` file and add your clue to the `WORD_LIST: []` array.
+1. Edit the `config.js` file and add your clues to the `WORD_LIST: []` array.
 	- `WORD_LIST: [A, B, C, D, E]`
-2. Set the `WORD_LIST` variable to config how many words will be contained in the final results:
+2. Set the `WORD_LIST` variable to configure how many words will be contained in the final results:
 	* 1 => `[A, B, C, D, E]` - 5 results
 	* 2 => `[A, B, C, D, E, AB, AC, AD, AE, BA, BC, BD, BE, CA, CB, CD, CE, DA, DB, DC, DE, EA, EB, EC, ED]` - 25 results
 	* Etc...
@@ -271,9 +271,9 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * Here are some additional resources for learning more about Hashcat rules:	
 
 * Hashcat rule-based attack: https://en.wikipedia.org/wiki/Hashcat
-* Explanation of Hashcat Rules: https://hashcat.net/wiki/doku.php?id=rule_based_attack
-* An Explanation of Hashcat Rules: https://raw.githubusercontent.com/hashcat/team-hashcat/main/CMIYC2021/CMIYC2021TeamHashcatWriteup.pdf
-* Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
+	* Explanation of Hashcat Rules: https://hashcat.net/wiki/doku.php?id=rule_based_attack
+	* An Explanation of Hashcat Rules: https://raw.githubusercontent.com/hashcat/team-hashcat/main/CMIYC2021/CMIYC2021TeamHashcatWriteup.pdf
+	* Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
 
 ### Included Rules
 * [NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations per word.
@@ -318,7 +318,7 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	...
 	```
 
-1. Run the `npm run combos` command to generate the list of strings that `hashcat` will use in its work.
+1. Run the `npm run combos` command to generate the list of strings that `hashcat` will generate in its work.
 2. With the default configuration you will get the following results, truncated for readability.
 	```text
 	password
@@ -332,32 +332,13 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	dpasswor
 	sswordpa
 	```
+3. By default the results each of the provided `.rule` files applied to the word `password` is provided in the `./hashcat/generator/results` directory.
 
 **PLEASE NOTE**: There are certain rules in some `.rule` files that are not currently implemented in the `wordlist-combinations-generator.js` logic so the `x variations` counts can be lower than expected.
 
 ----
 
 # Scripts
-## CLI
-Are you looking to quickly build and execute `hashcat` commands? Well you are in luck, I have added `cli` tooling to do just that. 
-
-1. Run `npm run cli` to get started.
-![](./images/cli-1.png)
-2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json`.
-	1. Then select the command that you would like to execute.
-	* ![](./images/cli-2.png)
-3. If you select `Custom Command` you can build a custom command.)
-	1. Select a `.hc22000` file that you would like to crack.
-	* ![](./images/cli-3.png)
-	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
-	*![](./images/cli-4.png)
-	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
-	* ![](./images/cli-5.png)
-4. You can choose to either `Execute` the command or `Copy to Clipboard`.
-* ![](./images/cli-6.png)
-* ![](./images/cli-7.png)
-* ![](./images/cli-8.png)
-
 ## Copy the .PCAP files to your machine.
 To copy the `.pcap` files from your `Pwnagotchi` run the following script.
 It will copy the files from the `/root/handshakes` directory on the `Pwnagotchi` to one that you can access from your machine, `/usr/[USERNAME]/handshakes`.
@@ -603,6 +584,26 @@ Stopped: Sun Nov 12 20:02:49 2023
 ╚══════════════╧══════════╧═══════════════════════════╝
 ```
 
+## CLI
+Are you looking to build and execute `hashcat` commands quickly based on the files you've already generated? Well you are in luck, I have added `cli` tooling to do just that. 
+
+1. Run `npm run cli` to get started.
+![](./images/cli-1.png)
+2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json` file.
+	1. Then select the command that you would like to execute.
+	* ![](./images/cli-2.png)
+3. If you select `Custom Command` you can build a custom command based on existing files.
+	1. Select a `.hc22000` file that you would like to crack.
+	* ![](./images/cli-3.png)
+	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
+	*![](./images/cli-4.png)
+	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
+	* ![](./images/cli-5.png)
+4. Then you  can choose to either `Execute` the command or `Copy to Clipboard`.
+* ![](./images/cli-6.png)
+* ![](./images/cli-7.png)
+* ![](./images/cli-8.png)
+
 ----
 
 # Troubleshooting
@@ -640,4 +641,3 @@ Stopped: Sun Nov 12 20:02:49 2023
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
 - [ ] Adding support for masks.
 - [ ] Find better names for the functions and commands.
- 
