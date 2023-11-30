@@ -136,9 +136,10 @@ async function run() {
 		console.log(chalk.blue("You selected Custom Command."));
 
 		// Implement your custom command logic here
-		const hccapxFiles = fs.readdirSync(config.LOCAL_HCCAPX_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const rulesFiles = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		const exclusions = [".gitkeep", ".gz"];
+		const hccapxFiles = fs.readdirSync(config.LOCAL_HCCAPX_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
+		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
+		const rulesFiles = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
 
 		const {
 			selectedHccapx
