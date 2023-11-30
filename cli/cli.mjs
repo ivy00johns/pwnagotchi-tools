@@ -141,6 +141,11 @@ async function run() {
 		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
 		const rulesFiles = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
 
+		if (hccapxFiles.length === 0) {
+			console.log(chalk.yellow("No hccapx .hc22000 files found. Please run 'npm run generate'."));
+			process.exit(0);
+		}
+
 		const {
 			selectedHccapx
 		} = await inquirer.prompt([{
