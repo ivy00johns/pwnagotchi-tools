@@ -54,6 +54,8 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Rules](#rules)
 		* [Included Rules](#included-rules)
 		* [Rule Combinations Generation](#rule-combinations-generation)
+	* [Masks](#masks)
+		* [Included Masks](#included-masks)
 * [Scripts](#scripts)
 	* [CLI](#cli)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
@@ -336,6 +338,46 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 
 **PLEASE NOTE**: There are certain rules in some `.rule` files that are not currently implemented in the `wordlist-combinations-generator.js` logic so the `x variations` counts can be lower than expected.
 
+## Masks
+```text
+masks are used for brute-forcing attacks by defining the characters and their positions in the password. A mask consists of placeholders for characters, where each placeholder represents a specific character set. The possible character sets include:
+
+?l: Lowercase letters (a-z)
+?u: Uppercase letters (A-Z)
+?d: Digits (0-9)
+?s: Special characters
+?a: Lowercase letters, uppercase letters, and digits
+?b: Custom characters (you define them)
+Here's an example mask: ?l?l?l?d?d?s. In this mask:
+
+The first three characters represent lowercase letters.
+The next two characters represent digits.
+The last character represents a special character.
+Now, let's calculate the number of combinations. For each placeholder in the mask, the number of possibilities is the size of the character set it represents.
+
+Lowercase letters (?l): 26 possibilities
+Digits (?d): 10 possibilities
+Special characters (?s): It depends on the specific character set used (e.g., 32 for default special characters)
+So, for the example mask ?l?l?l?d?d?s:
+
+26 × 26 × 26 × 10 × 10 × 32 = 449, 945, 920
+
+This is the total number of combinations that hashcat will attempt for this specific mask. Keep in mind that the actual time it takes to crack a password depends on factors such as the hashing algorithm, hardware performance, and the complexity of the password.
+```
+
+### Included Masks
+This repo contains the standard `masks` included in the `hashcat` [repository](https://github.com/hashcat/hashcat/tree/master/masks).
+* 8char-1l-1u-1d-1s-compliant.hcmask
+* 8char-1l-1u-1d-1s-noncompliant.hcmask
+* hashcat-default.hcmask
+* rockyou-1-60.hcmask
+* rockyou-2-1800.hcmask
+* rockyou-3-3600.hcmask
+* rockyou-4-43200.hcmask
+* rockyou-5-86400.hcmask
+* rockyou-6-864000.hcmask
+* rockyou-7-2592000.hcmask
+
 ----
 
 # Scripts
@@ -380,8 +422,10 @@ This script will generate a list of attacks based on the following combinations.
 --attack-mode=0
 .txt X .rule
 .dic X .rule
+.rule x mask
 .rule
 .txt
+.dic
 
 --attack-mode=3
 mask
