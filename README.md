@@ -1,9 +1,3 @@
-# Pwnascription
-
-# DISCLAIMER
-## This project is for WiFi security education purposes ONLY!
-## Hacking WiFi networks that you DO NOT OWN IS ILLEGAL!
-
 ```
 ██████╗ ██╗    ██╗███╗   ██╗███████╗ ██████╗██████╗ ██╗██████╗ ████████╗██╗ ██████╗ ███╗   ██╗
 ██╔══██╗██║    ██║████╗  ██║██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
@@ -12,6 +6,10 @@
 ██║     ╚███╔███╔╝██║ ╚████║███████║╚██████╗██║  ██║██║██║        ██║   ██║╚██████╔╝██║ ╚████║
 ╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 ```
+
+# DISCLAIMER
+## This project is for WiFi security education purposes ONLY!
+## Hacking WiFi networks that you DO NOT OWN IS ILLEGAL!
 
 ----
 
