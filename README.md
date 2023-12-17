@@ -17,7 +17,6 @@ In order to create it I started by refactoring different repos that are no longe
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
 ## Provided Tools
-* `npm run cli`: Run the availabe `npm run` commands as well as building`hashcat` scripts quickly.
 * `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
@@ -27,6 +26,7 @@ In order to create it I started by refactoring different repos that are no longe
 * `npm run results`: Displays a list of cracked networks in the terminal.
 * `npm run passwords`: Generate a custom wordlist containing all combinations of the `WORD_LIST` in the `config.js` file.
 * `npm run combos`: Generate the results of what happens when a `.rule` file is applied to a wordlist file for a better understanding of what `.rule` files do in `hashcat`.
+* `npm run cli`: Run the availabe `npm run` commands as well as building`hashcat` scripts quickly.
 
 # Table Of Contents
 * [Dependencies](#dependencies)
@@ -57,7 +57,6 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Masks](#masks)
 		* [Included Masks](#included-masks)
 * [Scripts](#scripts)
-	* [CLI](#cli)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
 	* [Generate the .HC22000/.PMKID files.](#generate-the-hc22000pmkid-files)
 		* [OS X](#os-x---generate)
@@ -74,6 +73,9 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Execute the handshake attacks.](#execute-the-handshake-attacks)
 		* [Example Terminal Output](#example-terminal-output)
 	* [Results](#cracked-networks-results)
+	* [Password Generator]()
+	* [.rule Results]()
+	* [CLI](#cli)
 * [Troubleshooting](#troubleshooting)
 * [Links](#links)
 
@@ -99,10 +101,20 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Connecting to your Pwnagotchi: pwnagotchi.ai](https://pwnagotchi.ai/configuration/#connect-to-your-pwnagotchi)
 * Other
 	* https://mattgibson.ca/pwnagotchi-1-6-2-with-waveshare-v3-macos-macbook-host/
+	* https://cyberarms.wordpress.com/2019/12/13/pwnagotchi-on-a-pi-4-using-any-display/
 
 ## Windows Setup
 * Other
 	* https://blog.manchestergreyhats.co.uk/posts/2020-01-10-pwnagotchi-setup/
+
+### Images/Config Files
+I've included a number `default.toml` files for the different Pwnagotchi images that you will can find as I found them handy when configuring my Pwnagotchi.
+
+| Repo														 | Default   																												   | Local   								   |
+|------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [Original](https://github.com/evilsocket/pwnagotchi/)      | [default.toml](https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    						   | `./pwnagotchi/defaults-original.toml`     |
+| [Torch](https://github.com/jayofelony/pwnagotchi-torch)    | [default.toml](https://github.com/Pwnagotchi-Unofficial/pwnagotchi-torch/blob/pwnagotchi-torch-64/pwnagotchi/defaults.toml) | `./pwnagotchi/defaults-torch.toml`        |
+| [Aluminum-Ice](https://github.com/aluminum-ice/pwnagotchi) | [default.toml](https://github.com/aluminum-ice/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    						   | `./pwnagotchi/defaults-aluminum-ice.toml` |
 
 # Installation
 ## OS X Installation
@@ -196,7 +208,7 @@ MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given s
 
 1. Edit the `config.js` file and add your clues to the `WORD_LIST: []` array.
 	- `WORD_LIST: [A, B, C, D, E]`
-2. Set the `WORD_LIST` variable to configure how many words will be contained in the final results:
+2. Set the `MAX_WORDS_USED` variable to configure how many words will be contained in the final results:
 	* 1 => `[A, B, C, D, E]` - 5 results
 	* 2 => `[A, B, C, D, E, AB, AC, AD, AE, BA, BC, BD, BE, CA, CB, CD, CE, DA, DB, DC, DE, EA, EB, EC, ED]` - 25 results
 	* Etc...
@@ -685,3 +697,4 @@ Are you looking to build and execute `hashcat` commands quickly based on the fil
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
 - [ ] Adding support for masks.
 - [ ] Find better names for the functions and commands.
+- [ ] Move logos to there own file.

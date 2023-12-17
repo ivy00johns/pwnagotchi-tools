@@ -141,6 +141,7 @@ hashcat/scripts/*
 
 # Config files
 config.js
+pwnagotchi/config.toml
 
 # Handshakes
 handshakes/pcap/*
