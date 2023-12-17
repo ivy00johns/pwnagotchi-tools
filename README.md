@@ -15,7 +15,7 @@
 ----
 
 # Purpose
-I create this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems, easier.
+I created this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems, easier.
 
 ![Pwnagotchi Logo](./images/pwnagotchi.gif)
 
