@@ -1,3 +1,4 @@
+# Pwnscription
 ```
 ██████╗ ██╗    ██╗███╗   ██╗███████╗ ██████╗██████╗ ██╗██████╗ ████████╗██╗ ██████╗ ███╗   ██╗
 ██╔══██╗██║    ██║████╗  ██║██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
@@ -14,7 +15,7 @@
 ----
 
 # Purpose
-This repo contains a number of scripts to automate the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems.
+I create this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems, easier.
 
 ![Pwnagotchi Logo](./images/pwnagotchi.gif)
 
@@ -23,7 +24,7 @@ In order to create it I started by refactoring different repos that are no longe
 * [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
-## Provided Tools
+## Included Tooling
 * `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
 	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
@@ -40,6 +41,7 @@ In order to create it I started by refactoring different repos that are no longe
 	* [OS X](#os-x-dependencies)
 	* [Windows](#windows-dependencies)
 * [Pwnagotchi Setup](#pwnagotchi-setup)
+	* [Images/Config Files](#imagesconfig-files)
 	* [OS X](#os-x-setup)
 	* [Windows](#windows-setup)
 * [Installation](#installation)
@@ -104,8 +106,8 @@ In order to create it I started by refactoring different repos that are no longe
 
 # Pwnagotchi Setup
 ## Images/Config Files
-I've included a number of `default.toml` files for the different Pwnagotchi images that you will can find as I found them handy when configuring my Pwnagotchi.
-I've also included a `minimal-config.toml` file with the bare minimal configuration settings to get up and running.
+I've included a number of `default.toml` files for the different `Pwnagotchi` images you can find as I found them helpful when configuring my `Pwnagotchi`.
+I've also included a `minimal-config.toml` file with the bare minimal configuration settings to get a `Pwnagotchi` up and running.
 
 | Repo														 | Default   																									 | Local   								     |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------|
@@ -268,7 +270,7 @@ MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given s
 ## Rules
 [Hashcat Rules](https://hashcat.net/wiki/doku.php?id=rule_based_attack)
 
-```text
+<pre>
 Hashcat rules are a powerful tool for generating password candidates based on patterns and rules. They can be used to crack passwords that follow specific patterns, such as those that use common words, numbers, or symbols. Hashcat rules can also be used to generate passwords that are more complex and less likely to be guessed.
 
 Here is a brief explanation of some of the basic Hashcat rules:
@@ -288,7 +290,7 @@ Hashcat rules can be combined in a variety of ways to create complex password-ge
 This rule will skip any passwords that are less than six characters long or do not start with a lowercase letter. It will then generate all possible combinations of lowercase letters, numbers, and symbols to create passwords that meet these criteria.
 
 Hashcat rules are a powerful tool for cracking passwords, but they are also a valuable asset for security researchers. By understanding how Hashcat rules work, security researchers can develop better defenses against password-based attacks.
-```
+</pre>
 
 * Here are some additional resources for learning more about Hashcat rules:	
 
@@ -359,8 +361,8 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 **PLEASE NOTE**: There are certain rules in some `.rule` files that are not currently implemented in the `wordlist-combinations-generator.js` logic so the `x variations` counts can be lower than expected.
 
 ## Masks
-```text
-masks are used for brute-forcing attacks by defining the characters and their positions in the password. A mask consists of placeholders for characters, where each placeholder represents a specific character set. The possible character sets include:
+<pre>
+Masks are used for brute-forcing attacks by defining the characters and their positions in the password. A mask consists of placeholders for characters, where each placeholder represents a specific character set. The possible character sets include:
 
 ?l: Lowercase letters (a-z)
 ?u: Uppercase letters (A-Z)
@@ -383,20 +385,20 @@ So, for the example mask ?l?l?l?d?d?s:
 26 × 26 × 26 × 10 × 10 × 32 = 449, 945, 920
 
 This is the total number of combinations that hashcat will attempt for this specific mask. Keep in mind that the actual time it takes to crack a password depends on factors such as the hashing algorithm, hardware performance, and the complexity of the password.
-```
+</pre>
 
 ### Included Masks
 This repo contains the standard `masks` included in the `hashcat` [repository](https://github.com/hashcat/hashcat/tree/master/masks).
-* 8char-1l-1u-1d-1s-compliant.hcmask
-* 8char-1l-1u-1d-1s-noncompliant.hcmask
-* hashcat-default.hcmask
-* rockyou-1-60.hcmask
-* rockyou-2-1800.hcmask
-* rockyou-3-3600.hcmask
-* rockyou-4-43200.hcmask
-* rockyou-5-86400.hcmask
-* rockyou-6-864000.hcmask
-* rockyou-7-2592000.hcmask
+* `8char-1l-1u-1d-1s-compliant.hcmask`
+* `8char-1l-1u-1d-1s-noncompliant.hcmask`
+* `hashcat-default.hcmask`
+* `rockyou-1-60.hcmask`
+* `rockyou-2-1800.hcmask`
+* `rockyou-3-3600.hcmask`
+* `rockyou-4-43200.hcmask`
+* `rockyou-5-86400.hcmask`
+* `rockyou-6-864000.hcmask`
+* `rockyou-7-2592000.hcmask`
 
 ----
 
@@ -703,6 +705,5 @@ Are you looking to build and execute `hashcat` commands quickly based on the fil
 	No PMKID or HCCAPX found.
 	```
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
-- [ ] Adding support for masks.
 - [ ] Find better names for the functions and commands.
 - [ ] Move logos to there own file.
