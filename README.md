@@ -96,6 +96,16 @@ In order to create it I started by refactoring different repos that are no longe
 		* Example: `C:\\Users\\XXXXXX\\hashcat-6.2.6\\`
 
 # Pwnagotchi Setup
+## Images/Config Files
+I've included a number of `default.toml` files for the different Pwnagotchi images that you will can find as I found them handy when configuring my Pwnagotchi.
+I've also included a `minimal-config.toml` file with the bare minimal configuration settings to get up and running.
+
+| Repo														 | Default   																									 | Local   								     |
+|------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [Original](https://github.com/evilsocket/pwnagotchi/)      | [default.toml](https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    			 | `./pwnagotchi/defaults-original.toml`     |
+| [Torch](https://github.com/jayofelony/pwnagotchi-torch)    | [default.toml](https://github.com/jayofelony/pwnagotchi-torch/blob/pwnagotchi-torch/pwnagotchi/defaults.toml) | `./pwnagotchi/defaults-torch.toml`        |
+| [Aluminum-Ice](https://github.com/aluminum-ice/pwnagotchi) | [default.toml](https://github.com/aluminum-ice/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    			 | `./pwnagotchi/defaults-aluminum-ice.toml` |
+
 ## OS X Setup
 * Official
 	* [Connecting to your Pwnagotchi: pwnagotchi.ai](https://pwnagotchi.ai/configuration/#connect-to-your-pwnagotchi)
@@ -106,15 +116,6 @@ In order to create it I started by refactoring different repos that are no longe
 ## Windows Setup
 * Other
 	* https://blog.manchestergreyhats.co.uk/posts/2020-01-10-pwnagotchi-setup/
-
-### Images/Config Files
-I've included a number `default.toml` files for the different Pwnagotchi images that you will can find as I found them handy when configuring my Pwnagotchi.
-
-| Repo														 | Default   																												   | Local   								   |
-|------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| [Original](https://github.com/evilsocket/pwnagotchi/)      | [default.toml](https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    						   | `./pwnagotchi/defaults-original.toml`     |
-| [Torch](https://github.com/jayofelony/pwnagotchi-torch)    | [default.toml](https://github.com/Pwnagotchi-Unofficial/pwnagotchi-torch/blob/pwnagotchi-torch-64/pwnagotchi/defaults.toml) | `./pwnagotchi/defaults-torch.toml`        |
-| [Aluminum-Ice](https://github.com/aluminum-ice/pwnagotchi) | [default.toml](https://github.com/aluminum-ice/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    						   | `./pwnagotchi/defaults-aluminum-ice.toml` |
 
 # Installation
 ## OS X Installation
