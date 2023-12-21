@@ -66,6 +66,7 @@ In order to create the project I started by combining and refactoring different 
 	* [Masks](#masks)
 		* [Included Masks](#included-masks)
 * [Scripts](#scripts)
+	* [CLI](#cli)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
 	* [Generate the .HC22000/.PMKID files.](#generate-the-hc22000pmkid-files)
 		* [OS X](#os-x---generate)
@@ -402,6 +403,26 @@ This repo contains the standard `masks` included in the `hashcat` [repository](h
 ----
 
 # Scripts
+## CLI
+Are you looking to quickly build and execute `hashcat` commands? Well you are in luck, I have added `cli` tooling to do just that. 
+
+1. Run `npm run cli` to get started.
+![](./images/cli-1.png)
+2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json`.
+	1. Then select the command that you would like to execute.
+	![](./images/cli-2.png)
+3. If you select `Custom Command` you can build a custom command.)
+	1. Select a `.hc22000` file that you would like to crack.
+	![](./images/cli-3.png)
+	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
+	![](./images/cli-4.png)
+	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
+	![](./images/cli-5.png)
+4. You can choose to either `Execute` the command or `Copy to Clipboard`.
+![](./images/cli-6.png)
+![](./images/cli-7.png)
+![](./images/cli-8.png)
+
 ## Copy the .PCAP files to your machine.
 To copy the `.pcap` files from your `Pwnagotchi` run the following script.
 It will copy the files from the `/root/handshakes` directory on the `Pwnagotchi` to one that you can access from your machine, `/usr/[USERNAME]/handshakes`.
