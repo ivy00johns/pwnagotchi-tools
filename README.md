@@ -204,7 +204,7 @@ WORDLISTS: [
 ### Known Password Wordlist
 * You can add your own known or suspected passwords by cloning the example wordlist and/or dictionary file and editing it.
 	1. `cp ./hashcat/known-passwords.example.txt ./hashcat/wordlists/known-passwords.txt`
-	2. `cp ./hashcat/known-passwords.example.dic ./hashcat/dictionaries/known-passwords.dic`
+	2. `cp ./hashcat/known-passwords.example.dic ./hashcat/wordlists/known-passwords.dic`
 
 ### Custom Wordlists
 You can generate a list of possible passwords based on a couple of clues that could have be used to build the password you want to crack.
