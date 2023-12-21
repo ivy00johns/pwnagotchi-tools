@@ -1,4 +1,7 @@
 # Pwnscription
+## REPO MIGRATION
+I have moved my project to a non-forked repo that is located here: https://github.com/ivy00johns/Pwnscription
+
 ```
 ██████╗ ██╗    ██╗███╗   ██╗███████╗ ██████╗██████╗ ██╗██████╗ ████████╗██╗ ██████╗ ███╗   ██╗
 ██╔══██╗██║    ██║████╗  ██║██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
