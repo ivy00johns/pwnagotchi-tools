@@ -187,7 +187,7 @@ async function run() {
 				type: "list",
 				name: "selectedMaskFile",
 				message: "Select a .hcmask file:",
-				choices: [...masksFiles],
+				choices: [...masksFiles]
 			}]);
 
 			const customCommand = generateCustomCommand(selectedHccapx, selectedWordlist, selectedRules, true, selectedMaskFile);
@@ -222,30 +222,32 @@ function generateCustomCommand(hccapx, wordlist, rules, useMasks, customMask) {
 
 	if (wordlist !== "NONE" && rules !== "NONE") {
 		if (useMasks) {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}" "${maskPath}"`;
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}" "${maskPath}" -S`;
 		} else {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}"`;	
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}" -S`;	
 		}
 	} else if (wordlist === "NONE" && rules !== "NONE") {
 		if (useMasks) {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${maskPath}"`;
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${maskPath}" -S`;
 		} else {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S`;
 		}
 	} else if (wordlist !== "NONE" && rules === "NONE") {
 		if (useMasks) {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}" "${maskPath}"`
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=6 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}" "${maskPath}" -S`
 		} else {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}"`
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=6 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}" -S`
+		}
+	} else if (wordlist === "NONE" && rules === "NONE") {
+		if (useMasks) {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${maskPath}" -S`
+		} else {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" -S`
 		}
 	} else {
-		if (useMasks) {
-			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${maskPath}"`
-		} else {
-			console.log(`No command present.`);
-			console.log(chalk.yellow("Goodbye!"));
-			process.exit(0);
-		}
+		console.log(`No command present.`);
+		console.log(chalk.yellow("Goodbye!"));
+		process.exit(0);
 	}
 }
 
