@@ -4,26 +4,7 @@ const config = require("../config");
 const sshClient = require("ssh2").Client;
 const commander = require("commander");
 const sftpClient = require("ssh2-sftp-client");
-
-//=======================
-// Console log the logo
-//=======================
-logo = () => {
-	console.log(`
-██████╗ ██╗    ██╗███╗   ██╗ █████╗  ██████╗ ███████╗████████╗████████╗██╗   ██╗
-██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔════╝ ██╔════╝╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
-██████╔╝██║ █╗ ██║██╔██╗ ██║███████║██║  ███╗█████╗     ██║      ██║    ╚████╔╝ 
-██╔═══╝ ██║███╗██║██║╚██╗██║██╔══██║██║   ██║██╔══╝     ██║      ██║     ╚██╔╝  
-██║     ╚███╔███╔╝██║ ╚████║██║  ██║╚██████╔╝███████╗   ██║      ██║      ██║   
-╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝      ╚═╝      ╚═╝   
-																					
-
-		|===============================================|
-		| Github: https://github.com/CyrisXD/Pwnagetty  |
-		| Twitter: @sudo_overflow                       |
-		|===============================================|
-			`);
-}
+const logos = require("../scripts/logos");
 
 const sshConfig = {
 	host: config.PWNAGOTCHI_SSH.HOST_ADDRESS,
@@ -131,7 +112,7 @@ async function removeFiles() {
 //===============
 async function main() {
 	try {
-		logo();
+		logos.printPwnagetty();
 
 		commander
 			.option("-r, --remove", "Delete handshake files after processing.")

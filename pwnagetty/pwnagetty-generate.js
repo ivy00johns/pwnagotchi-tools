@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 const { exec } = require("child_process");
+const logos = require("../scripts/logos");
 
 //====================================
 // Configuration 
@@ -13,26 +14,6 @@ const config = {
 
 let successfulPMKIDs = 0;
 let successfulHCCAPXs = 0;
-
-//=======================
-// Console log the logo
-//=======================
-function logo() {
-	console.log(`
-██████╗ ██╗    ██╗███╗   ██╗ █████╗  ██████╗ ███████╗████████╗████████╗██╗   ██╗
-██╔══██╗██║    ██║████╗  ██║██╔══██╗██╔════╝ ██╔════╝╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
-██████╔╝██║ █╗ ██║██╔██╗ ██║███████║██║  ███╗█████╗     ██║      ██║    ╚████╔╝ 
-██╔═══╝ ██║███╗██║██║╚██╗██║██╔══██║██║   ██║██╔══╝     ██║      ██║     ╚██╔╝  
-██║     ╚███╔███╔╝██║ ╚████║██║  ██║╚██████╔╝███████╗   ██║      ██║      ██║   
-╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝      ╚═╝      ╚═╝   
-																					
-	
-		|===============================================|
-		| Github: https://github.com/CyrisXD/Pwnagetty  |
-		| Twitter: @sudo_overflow                       |
-		|===============================================|
-			`);
-}
 
 //=================================
 // Get all pcap files in the directory
@@ -93,7 +74,7 @@ async function convertFile(file) {
 //===============
 async function main() {
 	try {
-		logo();
+		logos.printPwnagetty();
 
 		let files  = await readDir();
 		

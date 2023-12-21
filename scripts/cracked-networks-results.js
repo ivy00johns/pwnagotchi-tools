@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { table } = require("table");
+const logos = require("../scripts/logos");
 
 let networksCracked = [];
 
@@ -44,23 +44,10 @@ async function detectCrackedNetworks() {
     }
 }
 
-// Print cracked networks
-function printCrackedNetworks() {
-    console.log(`
- ▄▄· ▄▄▄   ▄▄▄·  ▄▄· ▄ •▄ ▄▄▄ .·▄▄▄▄     ▐ ▄ ▄▄▄ .▄▄▄▄▄▄▄▌ ▐ ▄▌      ▄▄▄  ▄ •▄ .▄▄ · 
-▐█ ▌▪▀▄ █·▐█ ▀█ ▐█ ▌▪█▌▄▌▪▀▄.▀·██▪ ██   •█▌▐█▀▄.▀·•██  ██· █▌▐█▪     ▀▄ █·█▌▄▌▪▐█ ▀. 
-██ ▄▄▐▀▀▄ ▄█▀▀█ ██ ▄▄▐▀▀▄·▐▀▀▪▄▐█· ▐█▌  ▐█▐▐▌▐▀▀▪▄ ▐█.▪██▪▐█▐▐▌ ▄█▀▄ ▐▀▀▄ ▐▀▀▄·▄▀▀▀█▄
-▐███▌▐█•█▌▐█ ▪▐▌▐███▌▐█.█▌▐█▄▄▌██. ██   ██▐█▌▐█▄▄▌ ▐█▌·▐█▌██▐█▌▐█▌.▐▌▐█•█▌▐█.█▌▐█▄▪▐█
-·▀▀▀ .▀  ▀ ▀  ▀ ·▀▀▀ ·▀  ▀ ▀▀▀ ▀▀▀▀▀•   ▀▀ █▪ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▪ ▀█▄▀▪.▀  ▀·▀  ▀ ▀▀▀▀ 
-        `);
-        console.log(table(networksCracked));
-}
-
-
 // Main function
 async function main() {
     await detectCrackedNetworks();
-    printCrackedNetworks();
+    logos.printCrackedNetworks();
 }
 
 // Run the script

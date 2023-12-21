@@ -53,7 +53,7 @@ async function runCommandOrCopyToClipboard(command) {
 		type: "list",
 		name: "action",
 		message: "Select an action:",
-		choices: ["Execute", "Copy to Clipboard", "Cancel"],
+		choices: ["Execute", "Copy to Clipboard", "Cancel"]
 	}]);
 
 	if (action === "Cancel") {
@@ -95,7 +95,7 @@ async function run() {
 		type: "list",
 		name: "commandType",
 		message: "Select a command type:",
-		choices: ["Standard Commands", "Custom Command", "Exit"],
+		choices: ["Standard Command", "Custom Command", "Exit"]
 	}]);
 
 	if (commandType === "Exit") {
@@ -114,7 +114,7 @@ async function run() {
 			choices: [...availableCommands, {
 				name: "Exit",
 				value: "exit"
-			}],
+			}]
 		}]);
 
 		if (command !== "exit") {
@@ -133,20 +133,24 @@ async function run() {
 	}
 
 	if (commandType === "Custom Command") {
-		console.log(chalk.blue("You selected Custom Command."));
+		const exclusions    = [".gitkeep", ".gz"];
+		const hccapxFiles   = fs.readdirSync(config.LOCAL_HCCAPX_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
+		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
+		const rulesFiles    = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
+		const masksFiles    = fs.readdirSync(config.LOCAL_MASKS_DIRECTORY).filter(file => exclusions.every(exclusion => !file.includes(exclusion)));
 
-		// Implement your custom command logic here
-		const hccapxFiles = fs.readdirSync(config.LOCAL_HCCAPX_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const wordlistFiles = fs.readdirSync(config.LOCAL_WORLISTS_DIRECTORY).filter(file => !file.includes(".gitkeep"));
-		const rulesFiles = fs.readdirSync(config.LOCAL_RULES_DIRECTORY).filter(file => !file.includes(".gitkeep"));
+		if (hccapxFiles.length === 0) {
+			console.log(chalk.yellow("No hccapx .hc22000 files found. Please run 'npm run generate'."));
+			process.exit(0);
+		}
 
 		const {
 			selectedHccapx
 		} = await inquirer.prompt([{
 			type: "list",
 			name: "selectedHccapx",
-			message: "Select an hccapx file:",
-			choices: [...hccapxFiles],
+			message: "Select an .hccapx file:",
+			choices: [...hccapxFiles]
 		}]);
 
 		const {
@@ -154,8 +158,8 @@ async function run() {
 		} = await inquirer.prompt([{
 			type: "list",
 			name: "selectedWordlist",
-			message: "Select a wordlist file:",
-			choices: [...wordlistFiles, "NONE"],
+			message: "Select a wordlist .txt file:",
+			choices: [...wordlistFiles, "NONE"]
 		}]);
 
 		const {
@@ -163,42 +167,88 @@ async function run() {
 		} = await inquirer.prompt([{
 			type: "list",
 			name: "selectedRules",
-			message: "Select a rules file:",
-			choices: [...rulesFiles, "NONE"],
+			message: "Select a .rule file:",
+			choices: [...rulesFiles, "NONE"]
 		}]);
 
-		// Generate and display the custom command
-		const customCommand = generateCustomCommand(selectedHccapx, selectedWordlist, selectedRules);
-		console.log(chalk.green(`Generated Custom Command: ${customCommand}`));
+		const {
+			useMasks
+		} = await inquirer.prompt([{
+			type: "confirm",
+			name: "useMasks",
+			message: "Do you want to use a mask?",
+			default: false
+		}]);
 
-		// Prompt the user to execute or copy the command to clipboard
-		await runCommandOrCopyToClipboard(customCommand);
+		if (useMasks) {
+			const {
+				selectedMaskFile
+			} = await inquirer.prompt([{
+				type: "list",
+				name: "selectedMaskFile",
+				message: "Select a .hcmask file:",
+				choices: [...masksFiles]
+			}]);
+
+			const customCommand = generateCustomCommand(selectedHccapx, selectedWordlist, selectedRules, true, selectedMaskFile);
+			console.log(chalk.green(`Generated Custom Command: ${customCommand}`));
+
+			// Prompt the user to execute or copy the command to clipboard
+			await runCommandOrCopyToClipboard(customCommand);
+		} else {
+			// Generate and display the custom command without masks
+			const customCommand = generateCustomCommand(selectedHccapx, selectedWordlist, selectedRules, false, "");
+			console.log(chalk.green(`Generated Custom Command: ${customCommand}`));
+
+			// Prompt the user to execute or copy the command to clipboard
+			await runCommandOrCopyToClipboard(customCommand);
+		}
 	}
 }
 
 // Function to generate a custom command based on user selections
-function generateCustomCommand(hccapx, wordlist, rules) {
+function generateCustomCommand(hccapx, wordlist, rules, useMasks, customMask) {
 	const sessionBaseName = hccapx.replace(/\.hc22000$/, "");
-	const ruleName = rules.replace(/\.txt$/, "");
-	const wordlistName = wordlist.replace(/\.txt$/, "");
-	const sessionName  = `${sessionBaseName}-${randomNumber}`;
+	const ruleName        = rules.replace(/\.txt$/, "");
+	const wordlistName    = wordlist.replace(/\.txt$/, "");
+	const sessionName     = `${sessionBaseName}-${randomNumber}`;
 
 	const wordlistPath = `${path.join(projectDirectory, "..", config.LOCAL_WORLISTS_DIRECTORY, wordlistName)}.txt`;
 	const rulePath     = `${path.join(projectDirectory, "..", config.LOCAL_RULES_DIRECTORY, ruleName)}`;
+	const maskPath     = `${path.join(projectDirectory, "..", config.LOCAL_MASKS_DIRECTORY, customMask)}`;
 	const outputPath   = `${path.join(projectDirectory, "..", config.LOCAL_OUTPUT_FILE_DIRECTORY, `${sessionName}-output.txt`)}`;
 	const potfilePath  = `${path.join(projectDirectory, "..", config.LOCAL_POTFILES_DIRECTORY, `${sessionName}-potfile.txt`)}`;
 	const hccapxPath   = `${path.join(projectDirectory, "..", config.LOCAL_HCCAPX_DIRECTORY, hccapx)}`;
 
 	if (wordlist !== "NONE" && rules !== "NONE") {
-		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S "${wordlistPath}"`;
+		if (useMasks) {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}" "${maskPath}" -S`;
+		} else {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${wordlistPath}" -S`;	
+		}
 	} else if (wordlist === "NONE" && rules !== "NONE") {
-		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" --rules-file="${rulePath}"`;
+		if (useMasks) {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" "${maskPath}" -S`;
+		} else {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" --rules-file="${rulePath}" -S`;
+		}
 	} else if (wordlist !== "NONE" && rules === "NONE") {
-		return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=0 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile="${outputPath}" "${hccapxPath}" -S "${wordlistPath}"`
+		if (useMasks) {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=6 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}" "${maskPath}" -S`
+		} else {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=6 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${wordlistPath}" -S`
+		}
+	} else if (wordlist === "NONE" && rules === "NONE") {
+		if (useMasks) {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" "${maskPath}" -S`
+		} else {
+			return `hashcat --hash-type=${config.HASH_TYPE} --attack-mode=3 --session ${sessionName} --hwmon-temp-abort=${config.ABORT_TEMPERATURE} -w ${config.ABORT_WAIT_TIME} --potfile-path "${potfilePath}" --outfile "${outputPath}" "${hccapxPath}" -S`
+		}
 	} else {
 		console.log(`No command present.`);
+		console.log(chalk.yellow("Goodbye!"));
+		process.exit(0);
 	}
 }
 
-// Run the main function
 run();

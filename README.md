@@ -1,4 +1,12 @@
-# pwnagotchi-tooling
+# Pwnscription
+```
+██████╗ ██╗    ██╗███╗   ██╗███████╗ ██████╗██████╗ ██╗██████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+██╔══██╗██║    ██║████╗  ██║██╔════╝██╔════╝██╔══██╗██║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+██████╔╝██║ █╗ ██║██╔██╗ ██║███████╗██║     ██████╔╝██║██████╔╝   ██║   ██║██║   ██║██╔██╗ ██║
+██╔═══╝ ██║███╗██║██║╚██╗██║╚════██║██║     ██╔══██╗██║██╔═══╝    ██║   ██║██║   ██║██║╚██╗██║
+██║     ╚███╔███╔╝██║ ╚████║███████║╚██████╗██║  ██║██║██║        ██║   ██║╚██████╔╝██║ ╚████║
+╚═╝      ╚══╝╚══╝ ╚═╝  ╚═══╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+```
 
 # DISCLAIMER
 ## This project is for WiFi security education purposes ONLY!
@@ -7,32 +15,33 @@
 ----
 
 # Purpose
-This repo contains a number of scripts to automate the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems.
+I created this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both OS X and Windows, easier by generating the necessary terminal commands for you.
 
 ![Pwnagotchi Logo](./images/pwnagotchi.gif)
 
-In order to create it I started by refactoring different repos that are no longer maintained.
+In order to create the project I started by combining and refactoring different repos that were no longer maintained.
 * [Pwnagotchi-Tools](https://github.com/mtagius/pwnagotchi-tools): [mtagius](https://github.com/mtagius)
 * [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
-## Provided Tools
-* `npm run cli`: Run the availabe `npm run` commands as well as building`hashcat` scripts quickly.
-* `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
-	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
-	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
+## Included Tooling
+* `npm run get`: OS X - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-up`: Windows - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-destroy`: Windows - Delete the Vagrant image when you are done.
 * `npm run generate`: Generate the `.hc22000` and `.pmkid` files for `hashcat` to crack based on the `.pcap` files you download.
 * `npm run attacks`: Generate a list of attacks based on the variables listed in the `config.js` file.
 * `npm run scripts`: Generate a list of attack scripts based on the `attacks-list.js` file.
 * `npm run results`: Displays a list of cracked networks in the terminal.
 * `npm run passwords`: Generate a custom wordlist containing all combinations of the `WORD_LIST` in the `config.js` file.
 * `npm run combos`: Generate the results of what happens when a `.rule` file is applied to a wordlist file for a better understanding of what `.rule` files do in `hashcat`.
+* `npm run cli`: Run the availabe `npm run` commands as well as building `hashcat` scripts quickly.
 
 # Table Of Contents
 * [Dependencies](#dependencies)
 	* [OS X](#os-x-dependencies)
 	* [Windows](#windows-dependencies)
 * [Pwnagotchi Setup](#pwnagotchi-setup)
+	* [Images/Config Files](#imagesconfig-files)
 	* [OS X](#os-x-setup)
 	* [Windows](#windows-setup)
 * [Installation](#installation)
@@ -54,6 +63,8 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Rules](#rules)
 		* [Included Rules](#included-rules)
 		* [Rule Combinations Generation](#rule-combinations-generation)
+	* [Masks](#masks)
+		* [Included Masks](#included-masks)
 * [Scripts](#scripts)
 	* [CLI](#cli)
 	* [Copy the .PCAP files to your machine.](#copy-the-pcap-files-to-your-machine)
@@ -72,6 +83,9 @@ In order to create it I started by refactoring different repos that are no longe
 	* [Execute the handshake attacks.](#execute-the-handshake-attacks)
 		* [Example Terminal Output](#example-terminal-output)
 	* [Results](#cracked-networks-results)
+	* [Password Generator]()
+	* [.rule Results]()
+	* [CLI](#cli)
 * [Troubleshooting](#troubleshooting)
 * [Links](#links)
 
@@ -92,11 +106,22 @@ In order to create it I started by refactoring different repos that are no longe
 		* Example: `C:\\Users\\XXXXXX\\hashcat-6.2.6\\`
 
 # Pwnagotchi Setup
+## Images/Config Files
+I've included a number of `default.toml` files for the different `Pwnagotchi` images you can find as I found them helpful when configuring my `Pwnagotchi`.
+I've also included a `minimal-config.toml` file with the bare minimal configuration settings to get a `Pwnagotchi` up and running.
+
+| Repo														 | Default   																									 | Local   								     |
+|------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [Original](https://github.com/evilsocket/pwnagotchi/)      | [default.toml](https://github.com/evilsocket/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    			 | `./pwnagotchi/defaults-original.toml`     |
+| [Torch](https://github.com/jayofelony/pwnagotchi-torch)    | [default.toml](https://github.com/jayofelony/pwnagotchi-torch/blob/pwnagotchi-torch/pwnagotchi/defaults.toml) | `./pwnagotchi/defaults-torch.toml`        |
+| [Aluminum-Ice](https://github.com/aluminum-ice/pwnagotchi) | [default.toml](https://github.com/aluminum-ice/pwnagotchi/blob/master/pwnagotchi/defaults.toml)    			 | `./pwnagotchi/defaults-aluminum-ice.toml` |
+
 ## OS X Setup
 * Official
 	* [Connecting to your Pwnagotchi: pwnagotchi.ai](https://pwnagotchi.ai/configuration/#connect-to-your-pwnagotchi)
 * Other
 	* https://mattgibson.ca/pwnagotchi-1-6-2-with-waveshare-v3-macos-macbook-host/
+	* https://cyberarms.wordpress.com/2019/12/13/pwnagotchi-on-a-pi-4-using-any-display/
 
 ## Windows Setup
 * Other
@@ -143,7 +168,7 @@ In order to create it I started by refactoring different repos that are no longe
 	},
 
 	// Windows configuration
-	WINDOWS: false, // Flag to indicate if running on Windows
+	WINDOWS: true, // Flag to indicate if running on Windows
 	HASHCAT_PATH: "C:\\[PATH]\\hashcat-6.2.6", // Path to Hashcat on Windows
 	...
 	```
@@ -192,9 +217,9 @@ MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given s
 ...
 ```
 
-1. Edit the `config.js` file and add your clue to the `WORD_LIST: []` array.
+1. Edit the `config.js` file and add your clues to the `WORD_LIST: []` array.
 	- `WORD_LIST: [A, B, C, D, E]`
-2. Set the `WORD_LIST` variable to config how many words will be contained in the final results:
+2. Set the `MAX_WORDS_USED` variable to configure how many words will be contained in the final results:
 	* 1 => `[A, B, C, D, E]` - 5 results
 	* 2 => `[A, B, C, D, E, AB, AC, AD, AE, BA, BC, BD, BE, CA, CB, CD, CE, DA, DB, DC, DE, EA, EB, EC, ED]` - 25 results
 	* Etc...
@@ -246,7 +271,7 @@ MAX_WORDS_USED: 2, // Max number of words that can be combined to form a given s
 ## Rules
 [Hashcat Rules](https://hashcat.net/wiki/doku.php?id=rule_based_attack)
 
-```text
+<pre>
 Hashcat rules are a powerful tool for generating password candidates based on patterns and rules. They can be used to crack passwords that follow specific patterns, such as those that use common words, numbers, or symbols. Hashcat rules can also be used to generate passwords that are more complex and less likely to be guessed.
 
 Here is a brief explanation of some of the basic Hashcat rules:
@@ -266,14 +291,13 @@ Hashcat rules can be combined in a variety of ways to create complex password-ge
 This rule will skip any passwords that are less than six characters long or do not start with a lowercase letter. It will then generate all possible combinations of lowercase letters, numbers, and symbols to create passwords that meet these criteria.
 
 Hashcat rules are a powerful tool for cracking passwords, but they are also a valuable asset for security researchers. By understanding how Hashcat rules work, security researchers can develop better defenses against password-based attacks.
-```
+</pre>
 
-* Here are some additional resources for learning more about Hashcat rules:	
-
+#### Here are some additional resources for learning more about Hashcat rules:	
 * Hashcat rule-based attack: https://en.wikipedia.org/wiki/Hashcat
-* Explanation of Hashcat Rules: https://hashcat.net/wiki/doku.php?id=rule_based_attack
-* An Explanation of Hashcat Rules: https://raw.githubusercontent.com/hashcat/team-hashcat/main/CMIYC2021/CMIYC2021TeamHashcatWriteup.pdf
-* Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
+	* Explanation of Hashcat Rules: https://hashcat.net/wiki/doku.php?id=rule_based_attack
+	* An Explanation of Hashcat Rules: https://raw.githubusercontent.com/hashcat/team-hashcat/main/CMIYC2021/CMIYC2021TeamHashcatWriteup.pdf
+	* Hashcat explained: How this password cracker works: https://www.youtube.com/watch?v=OPTJei6cnw4
 
 ### Included Rules
 * [NSAKEY.v2.dive](https://github.com/NSAKEY/nsa-rules/blob/master/_NSAKEY.v2.dive.rule) - 83,203 variations per word.
@@ -305,7 +329,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [wifi]() - 59 variations per word.
 
 ### Rule Combinations Generation 
-Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
+Are you interested in what a `.rule` file generates? I've include the logic to help answer this questions.
 
 * In the `config.js` file there are a few variables to help with this process. In them you can point to specific `.rule` and `.txt` files to create a list of the results when they are combined. By default it uses the `base-word.txt` file that contains the word `password`, and points to the `base64` rule set.
 	```javascript
@@ -318,7 +342,7 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	...
 	```
 
-1. Run the `npm run combos` command to generate the list of strings that `hashcat` will use in its work.
+1. Run the `npm run combos` command to generate the list of strings that `hashcat` will generate in its work.
 2. With the default configuration you will get the following results, truncated for readability.
 	```text
 	password
@@ -332,8 +356,49 @@ Are you interested in what a `.rule` file generates? I've include logic to help 
 	dpasswor
 	sswordpa
 	```
+3. By default the results each of the provided `.rule` files applied to the word `password` is provided in the `./hashcat/generator/results` directory.
 
 **PLEASE NOTE**: There are certain rules in some `.rule` files that are not currently implemented in the `wordlist-combinations-generator.js` logic so the `x variations` counts can be lower than expected.
+
+## Masks
+<pre>
+Masks are used for brute-forcing attacks by defining the characters and their positions in the password. A mask consists of placeholders for characters, where each placeholder represents a specific character set. The possible character sets include:
+
+?l: Lowercase letters (a-z)
+?u: Uppercase letters (A-Z)
+?d: Digits (0-9)
+?s: Special characters
+?a: Lowercase letters, uppercase letters, and digits
+?b: Custom characters (you define them)
+Here's an example mask: ?l?l?l?d?d?s. In this mask:
+
+The first three characters represent lowercase letters.
+The next two characters represent digits.
+The last character represents a special character.
+Now, let's calculate the number of combinations. For each placeholder in the mask, the number of possibilities is the size of the character set it represents.
+
+Lowercase letters (?l): 26 possibilities
+Digits (?d): 10 possibilities
+Special characters (?s): It depends on the specific character set used (e.g., 32 for default special characters)
+So, for the example mask ?l?l?l?d?d?s:
+
+26 × 26 × 26 × 10 × 10 × 32 = 449, 945, 920
+
+This is the total number of combinations that hashcat will attempt for this specific mask. Keep in mind that the actual time it takes to crack a password depends on factors such as the hashing algorithm, hardware performance, and the complexity of the password.
+</pre>
+
+### Included Masks
+This repo contains the standard `masks` included in the `hashcat` [repository](https://github.com/hashcat/hashcat/tree/master/masks).
+* `8char-1l-1u-1d-1s-compliant.hcmask`
+* `8char-1l-1u-1d-1s-noncompliant.hcmask`
+* `hashcat-default.hcmask`
+* `rockyou-1-60.hcmask`
+* `rockyou-2-1800.hcmask`
+* `rockyou-3-3600.hcmask`
+* `rockyou-4-43200.hcmask`
+* `rockyou-5-86400.hcmask`
+* `rockyou-6-864000.hcmask`
+* `rockyou-7-2592000.hcmask`
 
 ----
 
@@ -399,8 +464,10 @@ This script will generate a list of attacks based on the following combinations.
 --attack-mode=0
 .txt X .rule
 .dic X .rule
+.rule x mask
 .rule
 .txt
+.dic
 
 --attack-mode=3
 mask
@@ -461,7 +528,7 @@ To generate the necessary scripts to crack the WiFi handshakes based on the `./h
 * `--outfile="./hashcat/outputs/[HC22000_FILE_NAME]_[RANDOM-NUMBER]-output.txt"` - The output of the command should be written to a file instead of being displayed on the terminal.
 * `"./handshakes/hccapx/[HC22000_FILE_NAME].hc22000"` - The targetted `.hc22000` file that needs to be cracked.
 * `--rules-file="./hashcat/rules/[RULES_NAME].rule"` - The file that contains the rules for generating password candidates.
-* `-S "./wordlists/[PASSWORDS_LIST_NAME].txt"` - List of passwords.
+* `"./wordlists/[PASSWORDS_LIST_NAME].txt"` - List of passwords.
 * `"?h?h?h?h?h?h?h?h"` - A mask is a string of characters that represents the structure of a password. It uses placeholders to indicate which characters can be used at each position in the password. This allows hashcat to generate password candidates more efficiently than a brute-force attack, which would try every possible combination of characters.
 
 ### Attack Command Examples
@@ -603,6 +670,26 @@ Stopped: Sun Nov 12 20:02:49 2023
 ╚══════════════╧══════════╧═══════════════════════════╝
 ```
 
+## CLI
+Are you looking to build and execute `hashcat` commands quickly based on the files you've already generated? Well you are in luck, I have added `cli` tooling to do just that. 
+
+1. Run `npm run cli` to get started.
+![](./images/cli-1.png)
+2. If you select `Standard Commands` you can execute one of the `npm run` commands listed in the `package.json` file.
+	1. Then select the command that you would like to execute.
+	* ![](./images/cli-2.png)
+3. If you select `Custom Command` you can build a custom command based on existing files.
+	1. Select a `.hc22000` file that you would like to crack.
+	* ![](./images/cli-3.png)
+	2. Select a wordlist you'd like to use, you can also select "`NONE`" as an option.
+	*![](./images/cli-4.png)
+	3. Select a rule you'd like to use, you can also select "`NONE`" as an option.
+	* ![](./images/cli-5.png)
+4. Then you  can choose to either `Execute` the command or `Copy to Clipboard`.
+* ![](./images/cli-6.png)
+* ![](./images/cli-7.png)
+* ![](./images/cli-8.png)
+
 ----
 
 # Troubleshooting
@@ -638,6 +725,7 @@ Stopped: Sun Nov 12 20:02:49 2023
 	No PMKID or HCCAPX found.
 	```
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
-- [ ] Adding support for masks.
 - [ ] Find better names for the functions and commands.
- 
+- [ ] Move logos to there own file.
+- [ ] Update README examples for geenrated commands.
+- [ ] Add .dic support.
