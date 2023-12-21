@@ -15,26 +15,26 @@
 ----
 
 # Purpose
-I created this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both the OS X and Windows operating systems, easier.
+I created this project to make the process of cracking Wi-Fi handshakes gathered by a `Pwnagotchi` using the `Hashcat` tooling, on both OS X and Windows, easier by generating the necessary terminal commands for you.
 
 ![Pwnagotchi Logo](./images/pwnagotchi.gif)
 
-In order to create it I started by refactoring different repos that are no longer maintained.
+In order to create the project I started by combining and refactoring different repos that were no longer maintained.
 * [Pwnagotchi-Tools](https://github.com/mtagius/pwnagotchi-tools): [mtagius](https://github.com/mtagius)
 * [Pwnagetty](https://github.com/CyrisXD/Pwnagetty): [CyrisXD](https://github.com/CyrisXD)
 * [Weakpass](https://github.com/zzzteph/weakpass): [zzzteph](https://github.com/zzzteph)
 
 ## Included Tooling
-* `npm run get`: For OS X - Download the `.pcap` files from your `Pwnagotchi`.
-	* `npm run vagrant-up`: For Windows - Download the `.pcap` files from your `Pwnagotchi`.
-	* `npm run vagrant-destroy`: For Windows - Delete the Vagrant image when you are done.
+* `npm run get`: OS X - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-up`: Windows - Download the `.pcap` files from your `Pwnagotchi`.
+	* `npm run vagrant-destroy`: Windows - Delete the Vagrant image when you are done.
 * `npm run generate`: Generate the `.hc22000` and `.pmkid` files for `hashcat` to crack based on the `.pcap` files you download.
 * `npm run attacks`: Generate a list of attacks based on the variables listed in the `config.js` file.
 * `npm run scripts`: Generate a list of attack scripts based on the `attacks-list.js` file.
 * `npm run results`: Displays a list of cracked networks in the terminal.
 * `npm run passwords`: Generate a custom wordlist containing all combinations of the `WORD_LIST` in the `config.js` file.
 * `npm run combos`: Generate the results of what happens when a `.rule` file is applied to a wordlist file for a better understanding of what `.rule` files do in `hashcat`.
-* `npm run cli`: Run the availabe `npm run` commands as well as building`hashcat` scripts quickly.
+* `npm run cli`: Run the availabe `npm run` commands as well as building `hashcat` scripts quickly.
 
 # Table Of Contents
 * [Dependencies](#dependencies)
@@ -292,8 +292,7 @@ This rule will skip any passwords that are less than six characters long or do n
 Hashcat rules are a powerful tool for cracking passwords, but they are also a valuable asset for security researchers. By understanding how Hashcat rules work, security researchers can develop better defenses against password-based attacks.
 </pre>
 
-* Here are some additional resources for learning more about Hashcat rules:	
-
+#### Here are some additional resources for learning more about Hashcat rules:	
 * Hashcat rule-based attack: https://en.wikipedia.org/wiki/Hashcat
 	* Explanation of Hashcat Rules: https://hashcat.net/wiki/doku.php?id=rule_based_attack
 	* An Explanation of Hashcat Rules: https://raw.githubusercontent.com/hashcat/team-hashcat/main/CMIYC2021/CMIYC2021TeamHashcatWriteup.pdf
@@ -329,7 +328,7 @@ Hashcat rules are a powerful tool for cracking passwords, but they are also a va
 * [wifi]() - 59 variations per word.
 
 ### Rule Combinations Generation 
-Are you interested in what a `.rule` file generates? I've include logic to help answer this questions.
+Are you interested in what a `.rule` file generates? I've include the logic to help answer this questions.
 
 * In the `config.js` file there are a few variables to help with this process. In them you can point to specific `.rule` and `.txt` files to create a list of the results when they are combined. By default it uses the `base-word.txt` file that contains the word `password`, and points to the `base64` rule set.
 	```javascript
@@ -508,7 +507,7 @@ To generate the necessary scripts to crack the WiFi handshakes based on the `./h
 * `--outfile="./hashcat/outputs/[HC22000_FILE_NAME]_[RANDOM-NUMBER]-output.txt"` - The output of the command should be written to a file instead of being displayed on the terminal.
 * `"./handshakes/hccapx/[HC22000_FILE_NAME].hc22000"` - The targetted `.hc22000` file that needs to be cracked.
 * `--rules-file="./hashcat/rules/[RULES_NAME].rule"` - The file that contains the rules for generating password candidates.
-* `-S "./wordlists/[PASSWORDS_LIST_NAME].txt"` - List of passwords.
+* `"./wordlists/[PASSWORDS_LIST_NAME].txt"` - List of passwords.
 * `"?h?h?h?h?h?h?h?h"` - A mask is a string of characters that represents the structure of a password. It uses placeholders to indicate which characters can be used at each position in the password. This allows hashcat to generate password candidates more efficiently than a brute-force attack, which would try every possible combination of characters.
 
 ### Attack Command Examples
@@ -707,3 +706,5 @@ Are you looking to build and execute `hashcat` commands quickly based on the fil
 - [ ] Make it so you can generate list for each `.rule` file in the directory, if one is listed.
 - [ ] Find better names for the functions and commands.
 - [ ] Move logos to there own file.
+- [ ] Update README examples for geenrated commands.
+- [ ] Add .dic support.
